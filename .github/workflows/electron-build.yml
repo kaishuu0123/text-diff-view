@@ -22,15 +22,15 @@ jobs:
         with:
           node-version: 20
       - name: Build Windows
-        if: ${{ matrix.os == 'windows'}}
+        if: ${{ matrix.os == 'windows-latest'}}
         run: |
           yarn build:win
       - name: Build macOS
-        if: ${{ matrix.os == 'macos'}}
+        if: ${{ matrix.os == 'macos-latest'}}
         run: |
           yarn build:mac
       - name: Build Linux
-        if: ${{ matrix.os == 'ubuntu'}}
+        if: ${{ matrix.os == 'ubuntu-latest'}}
         run: |
           yarn build:linux
       - name: Release
