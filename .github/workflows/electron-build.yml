@@ -21,6 +21,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: yarn install
+        run: yarn install
       - name: Build Windows
         if: ${{ matrix.os == 'windows-latest'}}
         run: |
