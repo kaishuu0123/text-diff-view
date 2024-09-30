@@ -2,6 +2,8 @@
 
 A simple diff viewer that only compares what is entered in the left and right text boxes.
 
+![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20240930_screenshot_light_and_dark.jpg)
+
 ## Motivation
 
 1. simple tool to compare left and right text

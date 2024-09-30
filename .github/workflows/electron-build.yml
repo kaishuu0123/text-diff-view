@@ -34,6 +34,7 @@ jobs:
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest'}}
         run: |
+          sudo snap install snapcraft --classic
           yarn build:linux
       - name: Release
         uses: softprops/action-gh-release@v2
