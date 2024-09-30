@@ -7,7 +7,6 @@ A simple diff viewer that only compares what is entered in the left and right te
 | light                                                                                                            | dark                                                                                                            |
 | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | ![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20240930_screenshot_light.png) | ![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20240930_screenshot_dark.png) |
-|                                                                                                                  |
 
 ## Motivation
 
