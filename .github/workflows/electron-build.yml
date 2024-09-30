@@ -30,6 +30,7 @@ jobs:
       - name: Build macOS
         if: ${{ matrix.os == 'macos-latest'}}
         run: |
+          xattr -cr .
           yarn build:mac
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest'}}
