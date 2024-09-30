@@ -61,4 +61,4 @@ $ yarn build:linux
 - [Monaco Editor](https://microsoft.github.io/monaco-editor/)
 - [electron-vite](https://github.com/alex8088/electron-vite)
 - [@vscode/codicons](https://github.com/microsoft/vscode-codicons)
-- [react-monaco-editor](https://github.com/react-monaco-editor/react-monaco-editor)
+- [suren-atoyan/monaco-react](https://github.com/suren-atoyan/monaco-react)

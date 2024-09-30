@@ -1,11 +1,14 @@
-import { useState } from 'react'
-import { monaco, MonacoDiffEditor } from 'react-monaco-editor'
+import { useRef, useState } from 'react'
+import * as monaco from 'monaco-editor'
+import { DiffEditor, loader, MonacoDiffEditor } from '@monaco-editor/react'
 
 type ThemeColor = {
   textColor: string
   backgroundColor: string
   monacoThemeName: 'vs' | 'vs-dark'
 }
+
+loader.config({ monaco })
 
 const getThemeColorByThemeName = (themeName: 'light' | 'dark'): ThemeColor => {
   switch (themeName) {
@@ -27,14 +30,16 @@ const getThemeColorByThemeName = (themeName: 'light' | 'dark'): ThemeColor => {
 function App(): JSX.Element {
   const [leftValue, setLeftValue] = useState('')
   const [rightValue, setRightValue] = useState('')
-  const [currentEditor, setCurrentEditor] = useState<monaco.editor.IDiffEditor | null>(null)
+  const currentEditor = useRef<MonacoDiffEditor | null>(null)
   const [monacoThemeName, setMonacoThemeName] = useState<'vs' | 'vs-dark'>('vs')
 
   const options: monaco.editor.IDiffEditorOptions = {
     fontSize: 14,
     renderSideBySide: true,
     originalEditable: true,
-    automaticLayout: true
+    automaticLayout: true,
+    ignoreTrimWhitespace: false,
+    renderWhitespace: 'all'
   }
 
   const leftEditorChange = (editor: monaco.editor.ICodeEditor): void => {
@@ -48,14 +53,13 @@ function App(): JSX.Element {
   }
 
   const onEditorDidMount = (editor: monaco.editor.IStandaloneDiffEditor): void => {
-    setCurrentEditor(editor)
+    currentEditor.current = editor
 
     const originalEditor = editor.getOriginalEditor()
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     originalEditor.onDidChangeModelContent((_event) => {
       leftEditorChange(originalEditor)
     })
-    originalEditor.updateOptions({ ...options, ...{ placeholder: 'HELLO' } })
 
     const modifiedEditor = editor.getModifiedEditor()
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -97,8 +101,7 @@ function App(): JSX.Element {
               type="button"
               className="btn"
               onClick={() => {
-                currentEditor?.goToDiff('previous')
-                currentEditor?.layout()
+                currentEditor?.current?.goToDiff('previous')
               }}
             >
               <i className="codicon codicon-arrow-up"></i>
@@ -107,7 +110,7 @@ function App(): JSX.Element {
               type="button"
               className="btn"
               onClick={() => {
-                currentEditor?.goToDiff('next')
+                currentEditor?.current?.goToDiff('next')
               }}
             >
               <i className="codicon codicon-arrow-down"></i>
@@ -116,14 +119,12 @@ function App(): JSX.Element {
         </div>
       </div>
 
-      <MonacoDiffEditor
+      <DiffEditor
         className="border-1"
         language="text"
         theme={monacoThemeName}
-        original={leftValue}
-        value={rightValue}
         options={options}
-        editorDidMount={onEditorDidMount}
+        onMount={onEditorDidMount}
       />
 
       <div id="footer">
