@@ -2,7 +2,12 @@
 
 A simple diff viewer that only compares what is entered in the left and right text boxes.
 
-![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20240930_screenshot_light_and_dark.jpg)
+## Theme
+
+| light                                                                                                            | dark                                                                                                             |
+| ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| ![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20240930_screenshot_light.jpg) | ![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20240930_screenshot_light.jpg) |
+|  |
 
 ## Motivation
 
