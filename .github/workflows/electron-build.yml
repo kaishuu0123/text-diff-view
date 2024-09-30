@@ -42,9 +42,8 @@ jobs:
           files: |
             dist/*.zip
             dist/*.dmg
-            dist/*.deb
+            dist/*.exe
             dist/*.snap
             dist/*.AppImage
-            dist/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
