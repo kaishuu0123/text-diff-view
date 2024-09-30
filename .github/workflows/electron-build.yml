@@ -39,6 +39,12 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: 'dist/**'
+          files: |
+            dist/*.zip
+            dist/*.dmg
+            dist/*.deb
+            dist/*.snap
+            dist/*.AppImage
+            dist/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
