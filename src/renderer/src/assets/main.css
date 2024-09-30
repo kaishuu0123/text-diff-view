@@ -1,0 +1,141 @@
+@import './base.css';
+@import '../../../../node_modules/@vscode/codicons/dist/codicon.css';
+
+:root {
+  --text-color: rgb(0, 0, 0);
+  --background-color: #f9fafa;
+  --a-link-color: #3a7ad1;
+  --a-visited-color: #3a7ad1;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  height: 100%;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  padding: 1rem 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 620px) {
+  .versions {
+    display: none;
+  }
+}
+
+[class^="codicon-"], [class*="codicon-"] {
+  font-family: "codicon"!important;
+}
+
+a:link {
+  color: var(--a-link-color);
+}
+
+a:visited {
+  color: var(--a-visited-color);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  
+  padding: .5rem .5rem;
+  font-weight: 700;
+  color: rgba(255,255,255,1);
+  background-color: #0078d4;
+  
+  border: 0 solid #e2e8f0;
+  border-radius: .25rem;
+
+  &:hover {
+    background-color: #026ec1;
+  }
+
+  &:active {
+    outline: none;
+    box-shadow: 0 0 0 1px #cbd6ee;  
+  }
+}
+
+.title {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+
+  h1 {
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+  .theme {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+
+    select {
+      padding: .2em 4em .2em .4em;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-size: 1em;
+      cursor: pointer;
+    }
+  }
+}
+
+.navbar {
+  display: flex;
+  width: 100%;
+  margin-bottom: 1rem;
+  justify-content: space-between;
+  align-items: center;
+
+  .toolbar {
+    display: flex;
+    gap: 1rem;
+ 
+    .goto {
+      display: grid;
+      grid-auto-columns: 1fr;
+      grid-auto-flow: column;
+      gap: .5rem;
+      width: fit-content;
+      background-color: var(--background-color); 
+    }
+  }
+}
+
+.react-monaco-editor-container {
+  border: 1px solid #e3e5e8;
+}
+
+#footer {
+  font-size: x-small;
+  margin-top: 1rem;
+  width: 100%;
+  text-align: right;
+}
