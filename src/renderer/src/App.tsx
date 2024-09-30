@@ -28,8 +28,8 @@ const getThemeColorByThemeName = (themeName: 'light' | 'dark'): ThemeColor => {
 }
 
 function App(): JSX.Element {
-  const [leftValue, setLeftValue] = useState('')
-  const [rightValue, setRightValue] = useState('')
+  const [_leftValue, setLeftValue] = useState('')
+  const [_rightValue, setRightValue] = useState('')
   const currentEditor = useRef<MonacoDiffEditor | null>(null)
   const [monacoThemeName, setMonacoThemeName] = useState<'vs' | 'vs-dark'>('vs')
 
