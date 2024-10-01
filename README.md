@@ -8,7 +8,7 @@ https://sandbox.saino.me/text-diff-view/
 
 If you don't want to download the electron app, try the web version.
 
-also provide docker images.
+also provide [docker image](https://github.com/kaishuu0123/text-diff-view/pkgs/container/text-diff-view).
 
 ## Theme
 
