@@ -2,6 +2,14 @@
 
 A simple diff viewer that only compares what is entered in the left and right text boxes.
 
+## Demo
+
+https://sandbox.saino.me/text-diff-view/
+
+If you don't want to download the electron app, try the web version.
+
+also provide docker images.
+
 ## Theme
 
 | light                                                                                                            | dark                                                                                                            |
