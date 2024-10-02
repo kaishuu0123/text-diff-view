@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: text-diff-view
+productName: Text Diff View
 directories:
   buildResources: build
 files:
