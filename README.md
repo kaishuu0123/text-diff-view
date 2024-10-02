@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="256" height="256" src="https://raw.github.com/kaishuu0123/text-diff-view/main/build/icon.png">
+</p>
+
 # Text Diff View
 
 A simple diff viewer that only compares what is entered in the left and right text boxes.
