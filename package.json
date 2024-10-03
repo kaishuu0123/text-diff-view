@@ -2,6 +2,7 @@
   "name": "text-diff-view",
   "version": "1.2.1",
   "description": "text diff view electron app. Text-only.",
+  "type": "module",
   "main": "./out/main/index.js",
   "author": "kaishuu0123@gmail.com",
   "homepage": "https://github.com/kaishuu0123/text-diff-view",
@@ -26,6 +27,7 @@
     "@electron-toolkit/utils": "^3.0.0",
     "@monaco-editor/react": "^4.6.0",
     "@vscode/codicons": "^0.0.36",
+    "electron-store": "^10.0.0",
     "electron-updater": "^6.1.7",
     "monaco-editor": "^0.52.0"
   },

@@ -1,25 +1,31 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as monaco from 'monaco-editor'
 import { DiffEditor, loader, MonacoDiffEditor } from '@monaco-editor/react'
 
-type ThemeColor = {
+type ThemeNameType = 'light' | 'dark'
+
+type ThemeColorSetType = {
+  name: ThemeNameType
   textColor: string
   backgroundColor: string
   monacoThemeName: 'vs' | 'vs-dark'
 }
 
+
 loader.config({ monaco })
 
-const getThemeColorByThemeName = (themeName: 'light' | 'dark'): ThemeColor => {
+const getThemeColorByThemeName = (themeName: ThemeNameType): ThemeColorSetType => {
   switch (themeName) {
     case 'light':
       return {
+        name: 'light',
         textColor: '#000000',
         backgroundColor: '#f9fafa',
         monacoThemeName: 'vs'
       }
     case 'dark':
       return {
+        name: 'dark',
         textColor: '#d4d4d4',
         backgroundColor: '#1f1f1f',
         monacoThemeName: 'vs-dark'
@@ -28,10 +34,14 @@ const getThemeColorByThemeName = (themeName: 'light' | 'dark'): ThemeColor => {
 }
 
 function App(): JSX.Element {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_leftValue, setLeftValue] = useState('')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_rightValue, setRightValue] = useState('')
   const currentEditor = useRef<MonacoDiffEditor | null>(null)
-  const [monacoThemeName, setMonacoThemeName] = useState<'vs' | 'vs-dark'>('vs')
+  const [selectedTheme, setSelectedTheme] = useState<ThemeColorSetType>(
+    getThemeColorByThemeName('light')
+  )
 
   const options: monaco.editor.IDiffEditorOptions = {
     fontSize: 14,
@@ -68,18 +78,30 @@ function App(): JSX.Element {
     })
   }
 
+  const setTheme = (themeName: ThemeNameType): void => {
+    const themeColor = getThemeColorByThemeName(themeName)
+    document.documentElement.style.setProperty('--text-color', themeColor.textColor)
+    document.documentElement.style.setProperty('--background-color', themeColor.backgroundColor)
+    setSelectedTheme(themeColor)
+    window.api.SetThemeName(themeName)
+  }
+
   const handleChangeTheme = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const themeName = event.target.value
     if (themeName !== 'light' && themeName !== 'dark') {
       return
     }
-
-    const themeColor = getThemeColorByThemeName(themeName)
-    document.documentElement.style.setProperty('--text-color', themeColor.textColor)
-    document.documentElement.style.setProperty('--background-color', themeColor.backgroundColor)
-
-    setMonacoThemeName(themeColor.monacoThemeName)
+    setTheme(themeName)
   }
+
+  useEffect(() => {
+    ;(async (): Promise<void> => {
+      const themeName = await window.api.GetThemeName()
+      if (themeName != null && (themeName == 'light' || themeName == 'dark')) {
+        await setTheme(themeName)
+      }
+    })()
+  }, [])
 
   return (
     <div id="app" className="bg-white">
@@ -88,7 +110,7 @@ function App(): JSX.Element {
           <h1>Text Diff View</h1>
           <div className="theme">
             <label htmlFor="theme">Theme</label>
-            <select name="theme" onChange={handleChangeTheme}>
+            <select name="theme" onChange={handleChangeTheme} value={selectedTheme.name}>
               <option value="light">light</option>
               <option value="dark">dark</option>
             </select>
@@ -122,7 +144,7 @@ function App(): JSX.Element {
       <DiffEditor
         className="border-1"
         language="text"
-        theme={monacoThemeName}
+        theme={selectedTheme.monacoThemeName}
         options={options}
         onMount={onEditorDidMount}
       />

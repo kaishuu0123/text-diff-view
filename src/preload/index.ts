@@ -1,8 +1,15 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+  GetThemeName: (): Promise<string> => {
+    return ipcRenderer.invoke('GetThemeName')
+  },
+  SetThemeName: (themeName: string): Promise<boolean> => {
+    return ipcRenderer.invoke('SetThemeName', themeName)
+  }
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
