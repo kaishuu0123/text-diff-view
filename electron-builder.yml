@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: me.saino.text-diff-view
 productName: Text Diff View
 directories:
   buildResources: build
