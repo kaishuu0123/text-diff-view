@@ -1,6 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import * as monaco from 'monaco-editor'
 import { DiffEditor, loader, MonacoDiffEditor } from '@monaco-editor/react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from './components/ui/select'
+import { Button } from './components/ui/button'
+import { Separator } from './components/ui/separator'
+import { cn } from './lib/utils'
 
 type ThemeNameType = 'light' | 'dark'
 
@@ -10,7 +20,6 @@ type ThemeColorSetType = {
   backgroundColor: string
   monacoThemeName: 'vs' | 'vs-dark'
 }
-
 
 loader.config({ monaco })
 
@@ -49,7 +58,9 @@ function App(): JSX.Element {
     originalEditable: true,
     automaticLayout: true,
     ignoreTrimWhitespace: false,
-    renderWhitespace: 'all'
+    quickSuggestions: false,
+    renderWhitespace: 'all',
+    renderSideBySideInlineBreakpoint: 300
   }
 
   const leftEditorChange = (editor: monaco.editor.ICodeEditor): void => {
@@ -80,14 +91,12 @@ function App(): JSX.Element {
 
   const setTheme = (themeName: ThemeNameType): void => {
     const themeColor = getThemeColorByThemeName(themeName)
-    document.documentElement.style.setProperty('--text-color', themeColor.textColor)
-    document.documentElement.style.setProperty('--background-color', themeColor.backgroundColor)
     setSelectedTheme(themeColor)
     window.api.SetThemeName(themeName)
   }
 
-  const handleChangeTheme = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    const themeName = event.target.value
+  const handleChangeTheme = (value: string): void => {
+    const themeName = value
     if (themeName !== 'light' && themeName !== 'dark') {
       return
     }
@@ -104,56 +113,75 @@ function App(): JSX.Element {
   }, [])
 
   return (
-    <div id="app" className="bg-white">
-      <div className="navbar">
-        <div className="title">
-          <h1>Text Diff View</h1>
-          <div className="theme">
+    <div
+      id="app"
+      className={cn('bg-background text-foreground', selectedTheme.name === 'dark' && 'dark')}
+    >
+      <div className="flex flex-col h-screen p-2 space-y-2">
+        <div className="flex items-center justify-center">
+          <div className="theme grow flex items-center space-x-2">
             <label htmlFor="theme">Theme</label>
-            <select name="theme" onChange={handleChangeTheme} value={selectedTheme.name}>
-              <option value="light">light</option>
-              <option value="dark">dark</option>
-            </select>
+            <Select name="theme" onValueChange={handleChangeTheme} value={selectedTheme.name}>
+              <SelectTrigger className="max-w-32 h-8">
+                <SelectValue placeholder="Theme" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Light</SelectItem>
+                <SelectItem value="dark">Dark</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-        </div>
 
-        <div className="toolbar">
-          <div className="goto">
-            <button
-              type="button"
-              className="btn"
+          <div className="flex space-x-2">
+            <Button
+              size="icon"
+              className="w-8 h-8 rounded-sm"
               onClick={() => {
                 currentEditor?.current?.goToDiff('previous')
               }}
             >
               <i className="codicon codicon-arrow-up"></i>
-            </button>
-            <button
-              type="button"
-              className="btn"
+            </Button>
+            <Button
+              size="icon"
+              className="w-8 h-8 rounded-sm"
               onClick={() => {
                 currentEditor?.current?.goToDiff('next')
               }}
             >
               <i className="codicon codicon-arrow-down"></i>
-            </button>
+            </Button>
           </div>
         </div>
-      </div>
 
-      <DiffEditor
-        className="border-1"
-        language="text"
-        theme={selectedTheme.monacoThemeName}
-        options={options}
-        onMount={onEditorDidMount}
-      />
+        <div className="grow border">
+          <DiffEditor
+            className="border-1"
+            language="text"
+            theme={selectedTheme.monacoThemeName}
+            options={options}
+            onMount={onEditorDidMount}
+          />
+        </div>
 
-      <div id="footer">
-        Powered by Monaco Editor.
-        <a href="https://github.com/kaishuu0123/text-diff-view">
-          <i className="codicon  codicon-github" /> kaishuu0123/text-diff-view
-        </a>
+        <div id="footer" className="flex items-center justify-end space-x-3">
+          <div>
+            <span className="text-xs text-muted-foreground">Text Diff View</span>
+          </div>
+          <Separator orientation="vertical" />
+          <div>
+            <a
+              href="https://github.com/kaishuu0123/text-diff-view"
+              className="text-xs text-muted-foreground align-middle"
+            >
+              <span className="codicon codicon-github"></span> kaishuu0123/text-diff-view
+            </a>
+          </div>
+          <Separator orientation="vertical" />
+          <div>
+            <span className="text-xs text-muted-foreground">Powered by Monaco Editor.</span>
+          </div>
+        </div>
       </div>
     </div>
   )

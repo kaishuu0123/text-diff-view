@@ -1,141 +1,82 @@
-@import './base.css';
-@import '../../../../node_modules/@vscode/codicons/dist/codicon.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --text-color: rgb(0, 0, 0);
-  --background-color: #f9fafa;
-  --a-link-color: #3a7ad1;
-  --a-visited-color: #3a7ad1;
-}
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
 
-html {
-  height: 100%;
-}
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-body {
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  user-select: none;
-  height: 100%;
-  color: var(--text-color);
-  background-color: var(--background-color);
-}
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
 
-#root {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
 
-#app {
-  padding: 1rem 1rem;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
 
-@media (max-width: 620px) {
-  .versions {
-    display: none;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 215 20.2% 65.1%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 1.2%;
+
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 216 34% 17%;
+
+    --radius: 0.5rem;
   }
 }
 
-[class^="codicon-"], [class*="codicon-"] {
-  font-family: "codicon"!important;
-}
-
-a:link {
-  color: var(--a-link-color);
-}
-
-a:visited {
-  color: var(--a-visited-color);
-}
-
-.btn {
-  display: flex;
-  align-items: center;
-  
-  padding: .5rem .5rem;
-  font-weight: 700;
-  color: rgba(255,255,255,1);
-  background-color: #0078d4;
-  
-  border: 0 solid #e2e8f0;
-  border-radius: .25rem;
-
-  &:hover {
-    background-color: #026ec1;
+@layer base {
+  * {
+    @apply border-border;
   }
 
-  &:active {
-    outline: none;
-    box-shadow: 0 0 0 1px #cbd6ee;  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
-}
-
-.title {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-
-  h1 {
-    font-weight: 600;
-    font-size: 2rem;
-  }
-
-  .theme {
-    display: flex;
-    gap: .5rem;
-    align-items: center;
-
-    select {
-      padding: .2em 4em .2em .4em;
-      background-color: var(--background-color);
-      color: var(--text-color);
-      font-size: 1em;
-      cursor: pointer;
-    }
-  }
-}
-
-.navbar {
-  display: flex;
-  width: 100%;
-  margin-bottom: 1rem;
-  justify-content: space-between;
-  align-items: center;
-
-  .toolbar {
-    display: flex;
-    gap: 1rem;
- 
-    .goto {
-      display: grid;
-      grid-auto-columns: 1fr;
-      grid-auto-flow: column;
-      gap: .5rem;
-      width: fit-content;
-      background-color: var(--background-color); 
-    }
-  }
-}
-
-.react-monaco-editor-container {
-  border: 1px solid #e3e5e8;
-}
-
-#footer {
-  font-size: x-small;
-  margin-top: 1rem;
-  width: 100%;
-  text-align: right;
 }

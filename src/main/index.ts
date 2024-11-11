@@ -17,8 +17,8 @@ const store = new ElectronStore<StoreType>({
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    width: 800,
+    height: 600,
     show: false,
     autoHideMenuBar: true,
     ...(process?.platform === 'linux' ? { icon } : {}),
@@ -67,7 +67,7 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('SetThemeName', (_event, data) => {
-    return store.set('themeName', data)
+    store.set('themeName', data)
   })
 
   createWindow()

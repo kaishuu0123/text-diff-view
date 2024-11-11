@@ -4,8 +4,8 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: {
-      GetThemeName: () => Promise<string>
-      SetThemeName: (themeName: string) => Promise<boolean>
+      GetThemeName: () => Promise<string | null>
+      SetThemeName: (themeName: string) => Promise<void>
     }
   }
 }
