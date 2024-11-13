@@ -27,11 +27,21 @@ jobs:
         if: ${{ matrix.os == 'windows-latest'}}
         run: |
           yarn build:win
+      - name: Import Apple installer signing certificate
+        if: ${{ matrix.os == 'macos-latest'}}
+        uses: Apple-Actions/import-codesign-certs@v2
+        with:
+          p12-file-base64: ${{ secrets.APPLE_DEV_ID_APP }}
+          p12-password: ${{ secrets.APPLE_DEV_ID_APP_PASS }}
       - name: Build macOS
         if: ${{ matrix.os == 'macos-latest'}}
         run: |
           xattr -cr .
           yarn build:mac
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest'}}
         run: |
