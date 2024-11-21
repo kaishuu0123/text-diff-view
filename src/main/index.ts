@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -13,6 +13,9 @@ const store = new ElectronStore<StoreType>({
     themeName: 'light' // or 'dark'
   }
 })
+
+// Disable Application Menu when boot
+Menu.setApplicationMenu(null)
 
 function createWindow(): void {
   // Create the browser window.
