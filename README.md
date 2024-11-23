@@ -65,7 +65,7 @@ also provide [docker image](https://github.com/kaishuu0123/text-diff-view/pkgs/c
 
 | light                                                                                                            | dark                                                                                                            |
 | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| ![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20240930_screenshot_light.png) | ![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20240930_screenshot_dark.png) |
+| ![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20241123/screenshot_light.png) | ![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20241123/screenshot_dark.png) |
 
 ## Development
 
