@@ -14,8 +14,10 @@ const store = new ElectronStore<StoreType>({
   }
 })
 
-// Disable Application Menu when boot
-Menu.setApplicationMenu(null)
+if (process.platform !== 'darwin') {
+  // Disable Application Menu when boot except darwin
+  Menu.setApplicationMenu(null)
+}
 
 function createWindow(): void {
   // Create the browser window.
