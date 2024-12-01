@@ -1,6 +1,6 @@
 {
   "name": "text-diff-view",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "text diff view electron app. Text-only.",
   "type": "module",
   "main": "./out/main/index.js",
