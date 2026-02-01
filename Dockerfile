@@ -1,4 +1,4 @@
-FROM node:20-bookworm AS base
+FROM node:24-bookworm AS base
 
 WORKDIR /app/ts/base
 
@@ -18,7 +18,7 @@ COPY tsconfig.web.json .
 RUN yarn install
 COPY . .
 
-FROM node:20-bookworm AS builder
+FROM node:24-bookworm AS builder
 
 ENV NODE_ENV=production
 WORKDIR /app/ts/builder
