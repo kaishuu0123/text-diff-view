@@ -6,11 +6,19 @@ import ElectronStore from 'electron-store'
 
 type StoreType = {
   themeName?: string
+  windowX?: number
+  windowY?: number
+  windowWidth?: number
+  windowHeight?: number
 }
 
 const store = new ElectronStore<StoreType>({
   defaults: {
-    themeName: 'light' // or 'dark'
+    themeName: 'light', // or 'dark'
+    windowX: undefined,
+    windowY: undefined,
+    windowWidth: 800,
+    windowHeight: 600
   }
 })
 
@@ -19,13 +27,19 @@ if (process.platform !== 'darwin') {
   Menu.setApplicationMenu(null)
 }
 
+let resizeTimeout: NodeJS.Timeout | null = null
+let moveTimeout: NodeJS.Timeout | null = null
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: store.get('windowWidth') || 800,
+    height: store.get('windowHeight') || 600,
+    x: store.get('windowX'),
+    y: store.get('windowY'),
     show: false,
     autoHideMenuBar: true,
+    useContentSize: true,
     ...(process?.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.mjs'),
@@ -36,6 +50,32 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+  })
+
+  mainWindow.on('move', () => {
+    // Debounce move events to avoid excessive writes
+    if (moveTimeout) {
+      clearTimeout(moveTimeout)
+    }
+    moveTimeout = setTimeout(() => {
+      const bounds = mainWindow.getBounds()
+      store.set('windowX', bounds.x)
+      store.set('windowY', bounds.y)
+      moveTimeout = null
+    }, 500)
+  })
+
+  mainWindow.on('resized', () => {
+    // Debounce resize events to avoid excessive writes
+    if (resizeTimeout) {
+      clearTimeout(resizeTimeout)
+    }
+    resizeTimeout = setTimeout(() => {
+      const bounds = mainWindow.getBounds()
+      store.set('windowWidth', bounds.width)
+      store.set('windowHeight', bounds.height)
+      resizeTimeout = null
+    }, 500)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
