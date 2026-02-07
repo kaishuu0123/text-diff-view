@@ -837,7 +837,7 @@ inet_makenetandmask(u_long net, struct sockaddr_in *sin, u_long bits)
 			j <<= 8;
 		}
 		/* i holds the first non zero bit */
-		bits = 32 - (i*8);	
+		bits = 32 - (i*8);
 	}
 	if (bits != 0)
 		mask = 0xffffffff << (32 - bits);
@@ -1089,7 +1089,7 @@ prefixlen(const char *str)
 	int max;
 	char *p;
 
-	rtm_addrs |= RTA_NETMASK;	
+	rtm_addrs |= RTA_NETMASK;
 	switch (af) {
 #ifdef INET6
 	case AF_INET6:
@@ -1110,7 +1110,7 @@ prefixlen(const char *str)
 		fprintf(stderr, "%s: bad value\n", str);
 		exit(1);
 	}
-	
+
 	q = len >> 3;
 	r = len & 7;
 	so_mask.sa.sa_family = af;
