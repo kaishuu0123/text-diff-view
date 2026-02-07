@@ -13,8 +13,10 @@
 A simple, fast, and privacy-focused text comparison tool powered by Monaco Editor.
 
 - [Overview](#overview)
+- [Screenshots](#screenshots)
+  - [Features](#features-1)
+  - [Theme](#theme)
 - [Features](#features)
-- [Motivation](#motivation)
 - [Usage](#usage)
   - [Basic Comparison](#basic-comparison)
   - [Viewing Large Diffs](#viewing-large-diffs)
@@ -22,9 +24,7 @@ A simple, fast, and privacy-focused text comparison tool powered by Monaco Edito
 - [Demo](#demo)
 - [Download](#download)
 - [Support platform](#support-platform)
-- [Screenshots](#screenshots)
-  - [Features](#features-1)
-  - [Theme](#theme)
+- [Motivation](#motivation)
 - [Development](#development)
   - [Recommended IDE Setup](#recommended-ide-setup)
   - [Project Setup](#project-setup)
@@ -38,6 +38,20 @@ A simple, fast, and privacy-focused text comparison tool powered by Monaco Edito
 
 **Text Diff View** is a straightforward diff viewer designed to instantly compare content entered into two text boxes. It operates entirely offline to ensure privacy and reliability, and supports **Unified Diff (patch format) generation** for seamless developer workflows.
 
+## Screenshots
+
+### Features
+
+| Main                                                                                          | Unified Diff                                                                                                  |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| ![Main](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/main.png) | ![Unified Diff](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/unified_diff.png) |
+
+### Theme
+
+| Light                                                                                                | Dark                                                                                                |
+| ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| ![Light Theme](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/main.png) | ![Dark Theme](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/dark.png) |
+
 ## Features
 
 - **Side-by-Side Diff**: Compare text with Monaco Editor's powerful diff visualization
@@ -46,15 +60,6 @@ A simple, fast, and privacy-focused text comparison tool powered by Monaco Edito
 - **Theme Support**: Light and dark themes with synchronized editor and UI
 - **Cross-Platform**: Available for Windows, macOS, and Linux
 - **Monaco Editor**: Powered by the same editor engine used in VS Code
-
-## Motivation
-
-1. Simple tool to compare left and right text
-1. Works offline (no server required)
-1. Multi-platform support (Windows, macOS, Linux)
-1. Generate unified diff patches for version control workflows
-
-The difference calculation is done using [Monaco Editor (microsoft/monaco-editor)](https://microsoft.github.io/monaco-editor/). This project provides the Electron app wrapper and UI layout.
 
 ## Usage
 
@@ -95,19 +100,14 @@ Also available as a [Docker image](https://github.com/kaishuu0123/text-diff-view
 - Linux (x64, arm64, AppImage, deb, rpm)
 - macOS (Intel, Apple Silicon)
 
-## Screenshots
+## Motivation
 
-### Features
+1. Simple tool to compare left and right text
+1. Works offline (no server required)
+1. Multi-platform support (Windows, macOS, Linux)
+1. Generate unified diff patches for version control workflows
 
-| Main                                                                                          | Unified Diff                                                                                                  |
-| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| ![Main](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/main.png) | ![Unified Diff](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/unified_diff.png) |
-
-### Theme
-
-| Light                                                                                                | Dark                                                                                                |
-| ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| ![Light Theme](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/main.png) | ![Dark Theme](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/dark.png) |
+The difference calculation is done using [Monaco Editor (microsoft/monaco-editor)](https://microsoft.github.io/monaco-editor/). This project provides the Electron app wrapper and UI layout.
 
 ## Development
 
