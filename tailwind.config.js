@@ -1,5 +1,7 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
 
+const createFallback = (fonts) => fonts.join(', ')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
@@ -54,8 +56,8 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)'
       },
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-        mono: ['var(--font-mono)']
+        sans: ['var(--font-sans, ' + createFallback(fontFamily.sans) + ')'],
+        mono: ['var(--font-mono, ' + createFallback(fontFamily.mono) + ')']
       },
       keyframes: {
         'accordion-down': {

@@ -10,14 +10,13 @@ import {
 } from './components/ui/select'
 import { Button } from './components/ui/button'
 import { Separator } from './components/ui/separator'
+import { UnifiedDiffDialog } from './components/UnifiedDiffDialog'
 import { cn } from './lib/utils'
 
 type ThemeNameType = 'light' | 'dark'
 
 type ThemeColorSetType = {
   name: ThemeNameType
-  textColor: string
-  backgroundColor: string
   monacoThemeName: 'vs' | 'vs-dark'
 }
 
@@ -28,15 +27,11 @@ const getThemeColorByThemeName = (themeName: ThemeNameType): ThemeColorSetType =
     case 'light':
       return {
         name: 'light',
-        textColor: '#000000',
-        backgroundColor: '#f9fafa',
         monacoThemeName: 'vs'
       }
     case 'dark':
       return {
         name: 'dark',
-        textColor: '#d4d4d4',
-        backgroundColor: '#1f1f1f',
         monacoThemeName: 'vs-dark'
       }
   }
@@ -51,9 +46,11 @@ function App(): JSX.Element {
   const [selectedTheme, setSelectedTheme] = useState<ThemeColorSetType>(
     getThemeColorByThemeName('light')
   )
+  const [unifiedDiffDialogOpen, setUnifiedDiffDialogOpen] = useState(false)
 
   const options: monaco.editor.IDiffEditorOptions = {
     fontSize: 14,
+    fontLigatures: false,
     renderSideBySide: true,
     originalEditable: true,
     automaticLayout: true,
@@ -132,7 +129,14 @@ function App(): JSX.Element {
             </Select>
           </div>
 
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 items-center">
+            <Button className="h-8 rounded-sm" onClick={() => setUnifiedDiffDialogOpen(true)}>
+              <span className="flex items-center space-x-2">
+                <i className="codicon codicon-file-code"></i>
+                <span>Show Unified Diff</span>
+              </span>
+            </Button>
+            <Separator orientation="vertical" className="h-8" />
             <Button
               size="icon"
               className="w-8 h-8 rounded-sm"
@@ -164,25 +168,30 @@ function App(): JSX.Element {
           />
         </div>
 
-        <div id="footer" className="flex items-center justify-end space-x-3">
-          <div>
-            <span className="text-xs text-muted-foreground">Text Diff View</span>
-          </div>
-          <Separator orientation="vertical" />
+        <div id="footer" className="flex justify-end space-x-3 items-center">
           <div>
             <a
-              href="https://github.com/kaishuu0123/text-diff-view"
-              className="text-xs text-muted-foreground align-middle"
+              href="https://github.com"
+              className="text-xs text-muted-foreground"
+              target="_blank"
+              rel="noreferrer"
             >
-              <span className="codicon codicon-github"></span> kaishuu0123/text-diff-view
+              Text Diff View
             </a>
           </div>
-          <Separator orientation="vertical" />
+          <Separator orientation="vertical" className="h-full" />
           <div>
             <span className="text-xs text-muted-foreground">Powered by Monaco Editor.</span>
           </div>
         </div>
       </div>
+
+      <UnifiedDiffDialog
+        open={unifiedDiffDialogOpen}
+        onOpenChange={setUnifiedDiffDialogOpen}
+        diffEditor={currentEditor.current}
+        themeName={selectedTheme.name}
+      />
     </div>
   )
 }
