@@ -10,45 +10,80 @@
 
 </a>
 
-A simple diff viewer that only compares what is entered in the left and right text boxes.
+A simple, fast, and privacy-focused text comparison tool powered by Monaco Editor.
 
+- [Overview](#overview)
+- [Features](#features)
 - [Motivation](#motivation)
 - [Usage](#usage)
+  - [Basic Comparison](#basic-comparison)
+  - [Viewing Large Diffs](#viewing-large-diffs)
+  - [Generating Unified Diff](#generating-unified-diff)
 - [Demo](#demo)
 - [Download](#download)
 - [Support platform](#support-platform)
 - [Screenshots](#screenshots)
+  - [Features](#features-1)
   - [Theme](#theme)
-- [Recommended IDE Setup](#recommended-ide-setup)
-- [Project Setup](#project-setup)
-  - [Install](#install)
-  - [Development](#development)
-  - [Build](#build)
+- [Development](#development)
+  - [Recommended IDE Setup](#recommended-ide-setup)
+  - [Project Setup](#project-setup)
+    - [Install](#install)
+    - [Development](#development-1)
+    - [Build](#build)
+- [Technology Stack](#technology-stack)
+- [LICENSE](#license)
+
+## Overview
+
+**Text Diff View** is a straightforward diff viewer designed to instantly compare content entered into two text boxes. It operates entirely offline to ensure privacy and reliability, and supports **Unified Diff (patch format) generation** for seamless developer workflows.
+
+## Features
+
+- **Side-by-Side Diff**: Compare text with Monaco Editor's powerful diff visualization
+- **Unified Diff Export**: Generate standard unified diff patches with syntax highlighting
+- **Offline First**: Works completely offline - no server required, your data stays local
+- **Theme Support**: Light and dark themes with synchronized editor and UI
+- **Cross-Platform**: Available for Windows, macOS, and Linux
+- **Monaco Editor**: Powered by the same editor engine used in VS Code
 
 ## Motivation
 
-1. simple tool to compare left and right text
-1. works offline (no server required.)
-1. multi-platform support (Windows, macOS, Linux)
+1. Simple tool to compare left and right text
+1. Works offline (no server required)
+1. Multi-platform support (Windows, macOS, Linux)
+1. Generate unified diff patches for version control workflows
 
-The difference calculation is done using [monaco editor (microsoft/monaco-editor)](https://microsoft.github.io/monaco-editor/), I just built the layout and the electron app.
+The difference calculation is done using [Monaco Editor (microsoft/monaco-editor)](https://microsoft.github.io/monaco-editor/). This project provides the Electron app wrapper and UI layout.
 
-## Usage (use example_texts)
+## Usage
 
-Basically, just type the text on the left and right and you're done.
+### Basic Comparison
 
-Use this explanation when you want to see large diff.
+Simply type or paste text into the left and right text boxes. The differences will be highlighted automatically.
 
-1. Copy the contents of `example_texts/freebsd_sbin_route/left_82641e1.txt` from this repository to your clipboard and paste it into the text box on the left.
-1. Copy the contents of `example_texts/freebsd_sbin_route/right_158f319.txt` from this repository to your clipboard and paste it into the text box on the right.
+### Viewing Large Diffs
+
+To test with a real-world example:
+
+1. Copy the contents of `example_texts/freebsd_sbin_route/left_82641e1.txt` from this repository to your clipboard and paste it into the left text box.
+2. Copy the contents of `example_texts/freebsd_sbin_route/right_158f319.txt` from this repository to your clipboard and paste it into the right text box.
+
+### Generating Unified Diff
+
+Click the **"Show Unified Diff"** button in the toolbar to:
+
+- View the differences in standard unified diff format (patch format)
+- Copy the patch to clipboard for use with `git apply`, `patch`, or other tools
+- See syntax-highlighted diff output with proper `---`/`+++` headers and `@@` hunk markers
 
 ## Demo
 
 https://sandbox.saino.me/text-diff-view/
 
-If you don't want to download the electron app, try the web version.
+If you don't want to download the Electron app, try the web version.
 
-also provide [docker image](https://github.com/kaishuu0123/text-diff-view/pkgs/container/text-diff-view).
+Also available as a [Docker image](https://github.com/kaishuu0123/text-diff-view/pkgs/container/text-diff-view).
 
 ## Download
 
@@ -56,16 +91,23 @@ also provide [docker image](https://github.com/kaishuu0123/text-diff-view/pkgs/c
 
 ## Support platform
 
-- Windows
-- Linux
-- macOS
+- Windows (x64, arm64)
+- Linux (x64, arm64, AppImage, deb, rpm)
+- macOS (Intel, Apple Silicon)
 
 ## Screenshots
+
+### Features
+
+| Main                                                                                          | Unified Diff                                                                                                  |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| ![Main](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/main.png) | ![Unified Diff](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/unified_diff.png) |
+
 ### Theme
 
-| light                                                                                                            | dark                                                                                                            |
-| ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| ![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20241123/screenshot_light.png) | ![Screenshots](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20241123/screenshot_dark.png) |
+| Light                                                                                                | Dark                                                                                                |
+| ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| ![Light Theme](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/main.png) | ![Dark Theme](https://raw.github.com/kaishuu0123/text-diff-view/main/screenshots/20260207/dark.png) |
 
 ## Development
 
@@ -73,22 +115,24 @@ also provide [docker image](https://github.com/kaishuu0123/text-diff-view/pkgs/c
 
 - [VSCode](https://code.visualstudio.com/) + [devcontainer](https://code.visualstudio.com/docs/devcontainers/tutorial)
 
-### Install
+### Project Setup
+
+#### Install
 
 ```bash
 $ yarn
 ```
 
-### Development
+#### Development
 
 ```bash
 $ yarn dev
 ```
 
-### Build
+#### Build
 
 ```bash
-# For windows
+# For Windows
 $ yarn build:win
 
 # For macOS
@@ -98,9 +142,18 @@ $ yarn build:mac
 $ yarn build:linux
 ```
 
-## Thanks
+## Technology Stack
 
-- [Monaco Editor](https://microsoft.github.io/monaco-editor/)
-- [electron-vite](https://github.com/alex8088/electron-vite)
-- [@vscode/codicons](https://github.com/microsoft/vscode-codicons)
-- [suren-atoyan/monaco-react](https://github.com/suren-atoyan/monaco-react)
+- **Framework:** Electron
+- **UI:** React + TypeScript
+- **Editor:** Monaco Editor
+- **Styling:** Tailwind CSS
+- **Build:** electron-vite
+
+# LICENSE
+
+MIT
+
+---
+
+Made by [kaishuu0123](https://github.com/kaishuu0123) ✨
