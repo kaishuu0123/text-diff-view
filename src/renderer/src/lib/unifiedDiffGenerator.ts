@@ -34,91 +34,108 @@ export function generateUnifiedDiff(
       return '[INFO] No differences found'
     }
 
+    const context = 3
+
+    // Group overlapping/adjacent changes into hunks (same as linux diff command)
+    const hunks: Array<{
+      changes: typeof lineChanges
+      origStart: number
+      origEnd: number
+      modStart: number
+      modEnd: number
+    }> = []
+
+    for (const change of lineChanges) {
+      const origStart = Math.max(1, change.originalStartLineNumber - context)
+      const origEnd = Math.min(
+        originalLines.length,
+        (change.originalEndLineNumber > 0
+          ? change.originalEndLineNumber
+          : change.originalStartLineNumber) + context
+      )
+      const modStart = Math.max(1, change.modifiedStartLineNumber - context)
+      const modEnd = Math.min(
+        modifiedLines.length,
+        (change.modifiedEndLineNumber > 0
+          ? change.modifiedEndLineNumber
+          : change.modifiedStartLineNumber) + context
+      )
+
+      const lastHunk = hunks[hunks.length - 1]
+
+      if (lastHunk && origStart <= lastHunk.origEnd) {
+        // Merge into previous hunk
+        lastHunk.changes.push(change)
+        lastHunk.origEnd = Math.max(lastHunk.origEnd, origEnd)
+        lastHunk.modEnd = Math.max(lastHunk.modEnd, modEnd)
+      } else {
+        // Start new hunk
+        hunks.push({
+          changes: [change],
+          origStart,
+          origEnd,
+          modStart,
+          modEnd
+        })
+      }
+    }
+
     let patch = `--- a/${filename}\n`
     patch += `+++ b/after\n`
 
-    const context = 3
-    const processedRanges: Array<{ start: number; end: number }> = []
+    for (const hunk of hunks) {
+      // Build the hunk content first to count lines accurately
+      let hunkContent = ''
+      let origCount = 0
+      let modCount = 0
 
-    for (const change of lineChanges) {
-      const originalStart = change.originalStartLineNumber
-      const originalEnd = change.originalEndLineNumber
-      const modifiedStart = change.modifiedStartLineNumber
-      const modifiedEnd = change.modifiedEndLineNumber
+      // Walk through the original line range, emitting context/removed/added lines
+      let origLine = hunk.origStart
+      let modLine = hunk.modStart
 
-      // Calculate hunk boundaries with context
-      const hunkOriginalStart = Math.max(1, originalStart - context)
-      const hunkOriginalEnd = Math.min(originalLines.length, originalEnd + context)
-      const hunkModifiedStart = Math.max(1, modifiedStart - context)
-      // @ts-expect-error: TS6133 'declared but never read' - required for specific logic flow
-      const _hunkModifiedEnd = Math.min(modifiedLines.length, modifiedEnd + context)
-
-      // Check for overlap with previously processed ranges
-      const overlaps = processedRanges.some(
-        (range) => hunkOriginalStart <= range.end && hunkOriginalEnd >= range.start
-      )
-      if (overlaps) continue
-
-      processedRanges.push({ start: hunkOriginalStart, end: hunkOriginalEnd })
-
-      // Calculate actual line counts for the hunk
-      let originalCount = 0
-      let modifiedCount = 0
-
-      // Count original lines (context + removed)
-      for (let i = hunkOriginalStart; i <= hunkOriginalEnd; i++) {
-        if (i - 1 < originalLines.length) {
-          originalCount++
+      for (const change of hunk.changes) {
+        // Context lines before this change
+        while (origLine < change.originalStartLineNumber) {
+          hunkContent += ` ${originalLines[origLine - 1]}\n`
+          origCount++
+          modCount++
+          origLine++
+          modLine++
         }
-      }
 
-      // Count modified lines (context + added)
-      const modifiedStartLine = Math.max(1, modifiedStart - context)
-      const modifiedEndLine = Math.min(modifiedLines.length, modifiedEnd + context)
-      for (let i = modifiedStartLine; i <= modifiedEndLine; i++) {
-        if (i - 1 < modifiedLines.length) {
-          modifiedCount++
-        }
-      }
-
-      patch += `@@ -${hunkOriginalStart},${originalCount} +${hunkModifiedStart},${modifiedCount} @@\n`
-
-      // Add context before change
-      for (let i = hunkOriginalStart; i < originalStart; i++) {
-        const lineIndex = i - 1
-        if (lineIndex >= 0 && lineIndex < originalLines.length) {
-          patch += ` ${originalLines[lineIndex]}\n`
-        }
-      }
-
-      // Add removed/changed lines
-      if (originalEnd > 0) {
-        for (let i = originalStart; i <= originalEnd; i++) {
-          const lineIndex = i - 1
-          if (lineIndex >= 0 && lineIndex < originalLines.length) {
-            patch += `-${originalLines[lineIndex]}\n`
+        // Removed lines (pure deletion or modification)
+        if (change.originalEndLineNumber > 0) {
+          for (let i = change.originalStartLineNumber; i <= change.originalEndLineNumber; i++) {
+            hunkContent += `-${originalLines[i - 1]}\n`
+            origCount++
+            origLine++
           }
         }
-      }
 
-      // Add new/modified lines
-      if (modifiedEnd > 0) {
-        for (let i = modifiedStart; i <= modifiedEnd; i++) {
-          const lineIndex = i - 1
-          if (lineIndex >= 0 && lineIndex < modifiedLines.length) {
-            patch += `+${modifiedLines[lineIndex]}\n`
+        // Added lines (pure addition or modification)
+        if (change.modifiedEndLineNumber > 0) {
+          for (let i = change.modifiedStartLineNumber; i <= change.modifiedEndLineNumber; i++) {
+            hunkContent += `+${modifiedLines[i - 1]}\n`
+            modCount++
+            modLine++
           }
+        } else {
+          // Pure deletion: advance modLine to keep in sync
+          modLine = change.modifiedStartLineNumber + 1
         }
       }
 
-      // Add context after change
-      const contextAfterStart = Math.max(originalEnd + 1, originalStart)
-      for (let i = contextAfterStart; i <= hunkOriginalEnd; i++) {
-        const lineIndex = i - 1
-        if (lineIndex >= 0 && lineIndex < originalLines.length) {
-          patch += ` ${originalLines[lineIndex]}\n`
-        }
+      // Context lines after the last change
+      while (origLine <= hunk.origEnd) {
+        hunkContent += ` ${originalLines[origLine - 1]}\n`
+        origCount++
+        modCount++
+        origLine++
+        modLine++
       }
+
+      patch += `@@ -${hunk.origStart},${origCount} +${hunk.modStart},${modCount} @@\n`
+      patch += hunkContent
     }
 
     return patch
