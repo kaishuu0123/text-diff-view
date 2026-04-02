@@ -8,6 +8,9 @@ const api = {
   },
   SetThemeName: (themeName: string): Promise<boolean> => {
     return ipcRenderer.invoke('SetThemeName', themeName)
+  },
+  installUpdate: (): void => {
+    ipcRenderer.send('install-update')
   }
 }
 

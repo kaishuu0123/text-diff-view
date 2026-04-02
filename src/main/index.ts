@@ -1,3 +1,5 @@
+import pkg from 'electron-updater'
+const { autoUpdater } = pkg
 import { app, shell, BrowserWindow, ipcMain, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -27,12 +29,32 @@ if (process.platform !== 'darwin') {
   Menu.setApplicationMenu(null)
 }
 
+let mainWindow: BrowserWindow
+
+export function initAutoUpdater(win: BrowserWindow): void {
+  // 開発環境では動かさない
+  if (!app.isPackaged) return
+
+  autoUpdater.autoDownload = true
+  autoUpdater.autoInstallOnAppQuit = true
+
+  autoUpdater.on('update-downloaded', (info) => {
+    win.webContents.send('update-downloaded', info)
+  })
+
+  autoUpdater.on('error', (err) => {
+    console.error('AutoUpdater error:', err)
+  })
+
+  autoUpdater.checkForUpdates()
+}
+
 let resizeTimeout: NodeJS.Timeout | null = null
 let moveTimeout: NodeJS.Timeout | null = null
 
 function createWindow(): void {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: store.get('windowWidth') || 800,
     height: store.get('windowHeight') || 600,
     x: store.get('windowX'),
@@ -115,7 +137,13 @@ app.whenReady().then(() => {
     store.set('themeName', data)
   })
 
+  ipcMain.on('install-update', () => {
+    autoUpdater.quitAndInstall()
+  })
+
   createWindow()
+
+  initAutoUpdater(mainWindow)
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
