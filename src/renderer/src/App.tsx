@@ -47,6 +47,7 @@ function App(): JSX.Element {
     getThemeColorByThemeName('light')
   )
   const [unifiedDiffDialogOpen, setUnifiedDiffDialogOpen] = useState(false)
+  const [updateInfo, setUpdateInfo] = useState<{ version: string } | null>(null)
 
   const options: monaco.editor.IDiffEditorOptions = {
     fontSize: 14,
@@ -107,6 +108,12 @@ function App(): JSX.Element {
         await setTheme(themeName)
       }
     })()
+  }, [])
+
+  useEffect(() => {
+    window.electron.ipcRenderer.on('update-downloaded', (_event, info) => {
+      setUpdateInfo(info)
+    })
   }, [])
 
   return (
@@ -192,6 +199,18 @@ function App(): JSX.Element {
         diffEditor={currentEditor.current}
         themeName={selectedTheme.name}
       />
+
+      {updateInfo && (
+        <div className="fixed bottom-4 right-4 z-50 bg-background border border-border text-foreground p-3 rounded-lg shadow-md flex gap-3 items-center">
+          <span className="text-sm">アップデート v{updateInfo.version} が利用可能です</span>
+          <Button size="sm" variant="default" onClick={() => window.api.installUpdate()}>
+            再起動して更新
+          </Button>
+          <Button size="sm" variant="ghost" onClick={() => setUpdateInfo(null)}>
+            後で
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

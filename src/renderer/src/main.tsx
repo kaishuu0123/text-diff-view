@@ -12,7 +12,8 @@ if (window.api === undefined) {
     },
     SetThemeName: async (themeName: string): Promise<void> => {
       localStorage.setItem('themeName', themeName)
-    }
+    },
+    installUpdate: (): void => {}
   }
 }
 

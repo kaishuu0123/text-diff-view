@@ -6,6 +6,7 @@ declare global {
     api: {
       GetThemeName: () => Promise<string | null>
       SetThemeName: (themeName: string) => Promise<void>
+      installUpdate: () => void
     }
   }
 }
