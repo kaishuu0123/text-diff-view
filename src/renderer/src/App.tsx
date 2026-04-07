@@ -11,6 +11,7 @@ import {
 import { Button } from './components/ui/button'
 import { Separator } from './components/ui/separator'
 import { UnifiedDiffDialog } from './components/UnifiedDiffDialog'
+import { AboutDialog } from './components/AboutDialog'
 import { cn } from './lib/utils'
 
 type ThemeNameType = 'light' | 'dark'
@@ -47,6 +48,7 @@ function App(): JSX.Element {
     getThemeColorByThemeName('light')
   )
   const [unifiedDiffDialogOpen, setUnifiedDiffDialogOpen] = useState(false)
+  const [aboutOpen, setAboutOpen] = useState(false)
   const [updateInfo, setUpdateInfo] = useState<{ version: string } | null>(null)
 
   const options: monaco.editor.IDiffEditorOptions = {
@@ -177,14 +179,12 @@ function App(): JSX.Element {
 
         <div id="footer" className="flex justify-end space-x-3 items-center">
           <div>
-            <a
-              href="https://github.com"
-              className="text-xs text-muted-foreground"
-              target="_blank"
-              rel="noreferrer"
+            <button
+              className="text-xs text-muted-foreground hover:underline"
+              onClick={() => setAboutOpen(true)}
             >
               Text Diff View
-            </a>
+            </button>
           </div>
           <Separator orientation="vertical" className="h-full" />
           <div>
@@ -197,6 +197,12 @@ function App(): JSX.Element {
         open={unifiedDiffDialogOpen}
         onOpenChange={setUnifiedDiffDialogOpen}
         diffEditor={currentEditor.current}
+        themeName={selectedTheme.name}
+      />
+
+      <AboutDialog
+        open={aboutOpen}
+        onOpenChange={setAboutOpen}
         themeName={selectedTheme.name}
       />
 
