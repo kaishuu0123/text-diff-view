@@ -12,14 +12,16 @@ interface AboutDialogProps {
   themeName: 'light' | 'dark'
 }
 
+const isElectron = !!window.api && !!window.electron
+
 export function AboutDialog({ open, onOpenChange, themeName }: AboutDialogProps): JSX.Element {
-  const [version] = useState(() => window.api.getAppVersion())
+  const [version] = useState(() => (isElectron ? window.api.getAppVersion() : ''))
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>('checking')
   const [latestVersion, setLatestVersion] = useState('')
   const [isDevError, setIsDevError] = useState(false)
 
   useEffect(() => {
-    if (!open) return
+    if (!open || !isElectron) return
 
     setUpdateStatus('checking')
     setIsDevError(false)

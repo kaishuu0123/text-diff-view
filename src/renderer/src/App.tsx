@@ -92,7 +92,7 @@ function App(): JSX.Element {
   const setTheme = (themeName: ThemeNameType): void => {
     const themeColor = getThemeColorByThemeName(themeName)
     setSelectedTheme(themeColor)
-    window.api.SetThemeName(themeName)
+    window.api?.SetThemeName(themeName)
   }
 
   const handleChangeTheme = (value: string): void => {
@@ -104,6 +104,7 @@ function App(): JSX.Element {
   }
 
   useEffect(() => {
+    if (!window.api) return
     ;(async (): Promise<void> => {
       const themeName = await window.api.GetThemeName()
       if (themeName != null && (themeName == 'light' || themeName == 'dark')) {
@@ -113,6 +114,7 @@ function App(): JSX.Element {
   }, [])
 
   useEffect(() => {
+    if (!window.electron) return
     window.electron.ipcRenderer.on('update-downloaded', (_event, info) => {
       setUpdateInfo(info)
     })
