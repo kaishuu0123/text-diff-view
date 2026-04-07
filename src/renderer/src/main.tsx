@@ -13,7 +13,9 @@ if (window.api === undefined) {
     SetThemeName: async (themeName: string): Promise<void> => {
       localStorage.setItem('themeName', themeName)
     },
-    installUpdate: (): void => {}
+    installUpdate: (): void => {},
+    getAppVersion: (): string => '0.0.0',
+    checkForUpdates: (): void => {}
   }
 }
 
