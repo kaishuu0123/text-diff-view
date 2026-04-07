@@ -38,12 +38,25 @@ export function initAutoUpdater(win: BrowserWindow): void {
   autoUpdater.autoDownload = true
   autoUpdater.autoInstallOnAppQuit = true
 
+  autoUpdater.on('checking-for-update', () => {
+    win.webContents.send('update-checking')
+  })
+
+  autoUpdater.on('update-available', (info) => {
+    win.webContents.send('update-available', info)
+  })
+
+  autoUpdater.on('update-not-available', () => {
+    win.webContents.send('update-not-available')
+  })
+
   autoUpdater.on('update-downloaded', (info) => {
     win.webContents.send('update-downloaded', info)
   })
 
   autoUpdater.on('error', (err) => {
     console.error('AutoUpdater error:', err)
+    win.webContents.send('update-error', err.message)
   })
 
   autoUpdater.checkForUpdates()
@@ -139,6 +152,20 @@ app.whenReady().then(() => {
 
   ipcMain.on('install-update', () => {
     autoUpdater.quitAndInstall()
+  })
+
+  // App version (synchronous)
+  ipcMain.on('get-app-version', (event) => {
+    event.returnValue = app.getVersion()
+  })
+
+  // Trigger update check from renderer (e.g. About dialog)
+  ipcMain.on('check-for-updates-now', () => {
+    if (!app.isPackaged) {
+      mainWindow.webContents.send('update-error', 'dev')
+      return
+    }
+    autoUpdater.checkForUpdates()
   })
 
   createWindow()

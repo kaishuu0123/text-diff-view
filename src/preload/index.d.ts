@@ -7,6 +7,8 @@ declare global {
       GetThemeName: () => Promise<string | null>
       SetThemeName: (themeName: string) => Promise<void>
       installUpdate: () => void
+      getAppVersion: () => string
+      checkForUpdates: () => void
     }
   }
 }
