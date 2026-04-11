@@ -12,28 +12,6 @@
 
 A simple, fast, and privacy-focused text comparison tool powered by Monaco Editor.
 
-- [Overview](#overview)
-- [Screenshots](#screenshots)
-  - [Features](#features-1)
-  - [Theme](#theme)
-- [Features](#features)
-- [Usage](#usage)
-  - [Basic Comparison](#basic-comparison)
-  - [Viewing Large Diffs](#viewing-large-diffs)
-  - [Generating Unified Diff](#generating-unified-diff)
-- [Demo](#demo)
-- [Download](#download)
-- [Support platform](#support-platform)
-- [Motivation](#motivation)
-- [Development](#development)
-  - [Recommended IDE Setup](#recommended-ide-setup)
-  - [Project Setup](#project-setup)
-    - [Install](#install)
-    - [Development](#development-1)
-    - [Build](#build)
-- [Technology Stack](#technology-stack)
-- [LICENSE](#license)
-
 ## Overview
 
 **Text Diff View** is a straightforward diff viewer designed to instantly compare content entered into two text boxes. It operates entirely offline to ensure privacy and reliability, and supports **Unified Diff (patch format) generation** for seamless developer workflows.
