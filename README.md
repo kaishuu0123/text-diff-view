@@ -39,6 +39,24 @@ A simple, fast, and privacy-focused text comparison tool powered by Monaco Edito
 - **Cross-Platform**: Available for Windows, macOS, and Linux
 - **Monaco Editor**: Powered by the same editor engine used in VS Code
 
+## Demo
+
+https://sandbox.saino.me/text-diff-view/
+
+If you don't want to download the Electron app, try the web version.
+
+Also available as a [Docker image](https://github.com/kaishuu0123/text-diff-view/pkgs/container/text-diff-view).
+
+## Download
+
+- [Download from releases](https://github.com/kaishuu0123/text-diff-view/releases)
+
+## Support platform
+
+- Windows (x64, arm64)
+- Linux (x64, arm64, AppImage, deb, rpm)
+- macOS (Intel, Apple Silicon)
+
 ## Usage
 
 ### Basic Comparison
@@ -59,24 +77,6 @@ Click the **"Show Unified Diff"** button in the toolbar to:
 - View the differences in standard unified diff format (patch format)
 - Copy the patch to clipboard for use with `git apply`, `patch`, or other tools
 - See syntax-highlighted diff output with proper `---`/`+++` headers and `@@` hunk markers
-
-## Demo
-
-https://sandbox.saino.me/text-diff-view/
-
-If you don't want to download the Electron app, try the web version.
-
-Also available as a [Docker image](https://github.com/kaishuu0123/text-diff-view/pkgs/container/text-diff-view).
-
-## Download
-
-- [Download from releases](https://github.com/kaishuu0123/text-diff-view/releases)
-
-## Support platform
-
-- Windows (x64, arm64)
-- Linux (x64, arm64, AppImage, deb, rpm)
-- macOS (Intel, Apple Silicon)
 
 ## Motivation
 
