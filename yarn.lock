@@ -2549,9 +2549,9 @@ electron-vite@^5.0.0:
     picocolors "^1.1.1"
 
 electron@^41.1.1:
-  version "41.1.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-41.1.1.tgz#ec2016ad886b4377a4b643fa34fe9cbcd8d7f015"
-  integrity sha512-8bgvDhBjli+3Z2YCKgzzoBPh6391pr7Xv2h/tTJG4ETgvPvUxZomObbZLs31mUzYb6VrlcDDd9cyWyNKtPm3tA==
+  version "41.6.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-41.6.0.tgz#4272e1420cd192f1f20e136f2d4cb5f4a671a1b8"
+  integrity sha512-5UWV5FXkYMzCDV6FvLCa5mzlCBtlX/H1Af27TD5di+4CUCPi0/ZmWPBdSBlYrunsBlUvlcpW8X0NurW4zesQ6g==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^24.9.0"
