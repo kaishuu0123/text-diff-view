@@ -1,26 +1,19 @@
 import pkg from 'electron-updater'
 const { autoUpdater } = pkg
-import { app, shell, BrowserWindow, ipcMain, Menu } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, Menu, screen } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import ElectronStore from 'electron-store'
+import windowStateKeeper from 'electron-window-state'
 
 type StoreType = {
   themeName?: string
-  windowX?: number
-  windowY?: number
-  windowWidth?: number
-  windowHeight?: number
 }
 
 const store = new ElectronStore<StoreType>({
   defaults: {
-    themeName: 'light', // or 'dark'
-    windowX: undefined,
-    windowY: undefined,
-    windowWidth: 800,
-    windowHeight: 600
+    themeName: 'light' // or 'dark'
   }
 })
 
@@ -62,16 +55,18 @@ export function initAutoUpdater(win: BrowserWindow): void {
   autoUpdater.checkForUpdates()
 }
 
-let resizeTimeout: NodeJS.Timeout | null = null
-let moveTimeout: NodeJS.Timeout | null = null
-
 function createWindow(): void {
+  const mainWindowState = windowStateKeeper({
+    defaultWidth: 800,
+    defaultHeight: 600
+  })
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: store.get('windowWidth') || 800,
-    height: store.get('windowHeight') || 600,
-    x: store.get('windowX'),
-    y: store.get('windowY'),
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     show: false,
     autoHideMenuBar: true,
     useContentSize: true,
@@ -83,34 +78,33 @@ function createWindow(): void {
     resizable: true
   })
 
+  mainWindowState.manage(mainWindow)
+
+  screen.on('display-removed', () => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      const bounds = mainWindow.getBounds()
+      const displays = screen.getAllDisplays()
+
+      // 現在のウィンドウ領域が、有効なディスプレイのいずれかと重なっているか判定
+      const isVisible = displays.some((display) => {
+        const { x, y, width, height } = display.workArea
+        return (
+          bounds.x + bounds.width > x &&
+          bounds.x < x + width &&
+          bounds.y + bounds.height > y &&
+          bounds.y < y + height
+        )
+      })
+
+      // 画面外に出てしまっている場合は画面中央（プライマリディスプレイ）へ復元
+      if (!isVisible) {
+        mainWindow.center()
+      }
+    }
+  })
+
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
-  })
-
-  mainWindow.on('move', () => {
-    // Debounce move events to avoid excessive writes
-    if (moveTimeout) {
-      clearTimeout(moveTimeout)
-    }
-    moveTimeout = setTimeout(() => {
-      const bounds = mainWindow.getBounds()
-      store.set('windowX', bounds.x)
-      store.set('windowY', bounds.y)
-      moveTimeout = null
-    }, 500)
-  })
-
-  mainWindow.on('resized', () => {
-    // Debounce resize events to avoid excessive writes
-    if (resizeTimeout) {
-      clearTimeout(resizeTimeout)
-    }
-    resizeTimeout = setTimeout(() => {
-      const bounds = mainWindow.getBounds()
-      store.set('windowWidth', bounds.width)
-      store.set('windowHeight', bounds.height)
-      resizeTimeout = null
-    }, 500)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
