@@ -5,15 +5,20 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import ElectronStore from 'electron-store'
-import windowStateKeeper from 'electron-window-state'
 
 type StoreType = {
   themeName?: string
+  windowWidth?: number
+  windowHeight?: number
+  windowX?: number
+  windowY?: number
 }
 
 const store = new ElectronStore<StoreType>({
   defaults: {
-    themeName: 'light' // or 'dark'
+    themeName: 'light',
+    windowWidth: 800,
+    windowHeight: 600
   }
 })
 
@@ -56,17 +61,33 @@ export function initAutoUpdater(win: BrowserWindow): void {
 }
 
 function createWindow(): void {
-  const mainWindowState = windowStateKeeper({
-    defaultWidth: 800,
-    defaultHeight: 600
-  })
+  const savedWidth = store.get('windowWidth') ?? 800
+  const savedHeight = store.get('windowHeight') ?? 600
+  let savedX = store.get('windowX')
+  let savedY = store.get('windowY')
+
+  if (savedX != null && savedY != null) {
+    const displays = screen.getAllDisplays()
+    const isVisible = displays.some((display) => {
+      const { x, y, width, height } = display.workArea
+      return (
+        savedX! + savedWidth > x &&
+        savedX! < x + width &&
+        savedY! + savedHeight > y &&
+        savedY! < y + height
+      )
+    })
+    if (!isVisible) {
+      savedX = undefined
+      savedY = undefined
+    }
+  }
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    x: mainWindowState.x,
-    y: mainWindowState.y,
-    width: mainWindowState.width,
-    height: mainWindowState.height,
+    ...(savedX != null && savedY != null ? { x: savedX, y: savedY } : {}),
+    width: savedWidth,
+    height: savedHeight,
     show: false,
     autoHideMenuBar: true,
     useContentSize: true,
@@ -78,7 +99,23 @@ function createWindow(): void {
     resizable: true
   })
 
-  mainWindowState.manage(mainWindow)
+  if (savedX == null || savedY == null) {
+    mainWindow.center()
+  }
+
+  const saveWindowState = (): void => {
+    if (mainWindow && !mainWindow.isDestroyed() && !mainWindow.isMinimized()) {
+      const bounds = mainWindow.getBounds()
+      store.set('windowX', bounds.x)
+      store.set('windowY', bounds.y)
+      store.set('windowWidth', bounds.width)
+      store.set('windowHeight', bounds.height)
+    }
+  }
+
+  mainWindow.on('resize', saveWindowState)
+  mainWindow.on('move', saveWindowState)
+  mainWindow.on('close', saveWindowState)
 
   screen.on('display-removed', () => {
     if (mainWindow && !mainWindow.isDestroyed()) {
