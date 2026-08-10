@@ -50,7 +50,7 @@ jobs:
           sudo snap install snapcraft --classic
           yarn build:linux
       - name: Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
