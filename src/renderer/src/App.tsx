@@ -39,9 +39,7 @@ const getThemeColorByThemeName = (themeName: ThemeNameType): ThemeColorSetType =
 }
 
 function App(): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_leftValue, setLeftValue] = useState('')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_rightValue, setRightValue] = useState('')
   const currentEditor = useRef<MonacoDiffEditor | null>(null)
   const [selectedTheme, setSelectedTheme] = useState<ThemeColorSetType>(
@@ -77,13 +75,11 @@ function App(): JSX.Element {
     currentEditor.current = editor
 
     const originalEditor = editor.getOriginalEditor()
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     originalEditor.onDidChangeModelContent((_event) => {
       leftEditorChange(originalEditor)
     })
 
     const modifiedEditor = editor.getModifiedEditor()
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     modifiedEditor.onDidChangeModelContent((_event) => {
       rightEditorChange(modifiedEditor)
     })
@@ -103,11 +99,12 @@ function App(): JSX.Element {
     setTheme(themeName)
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: setTheme is recreated every render; deps intentionally left empty so this runs only once on mount (not changed to preserve existing behavior)
   useEffect(() => {
     if (!window.api) return
     ;(async (): Promise<void> => {
       const themeName = await window.api.GetThemeName()
-      if (themeName != null && (themeName == 'light' || themeName == 'dark')) {
+      if (themeName != null && (themeName === 'light' || themeName === 'dark')) {
         await setTheme(themeName)
       }
     })()
@@ -182,6 +179,7 @@ function App(): JSX.Element {
         <div id="footer" className="flex justify-end space-x-3 items-center">
           <div>
             <button
+              type="button"
               className="text-xs text-muted-foreground hover:underline"
               onClick={() => setAboutOpen(true)}
             >

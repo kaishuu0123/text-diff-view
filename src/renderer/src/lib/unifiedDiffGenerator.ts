@@ -91,7 +91,6 @@ export function generateUnifiedDiff(
 
       // Walk through the original line range, emitting context/removed/added lines
       let origLine = hunk.origStart
-      let modLine = hunk.modStart
 
       for (const change of hunk.changes) {
         // Context lines before this change
@@ -100,7 +99,6 @@ export function generateUnifiedDiff(
           origCount++
           modCount++
           origLine++
-          modLine++
         }
 
         // Removed lines (pure deletion or modification)
@@ -117,11 +115,7 @@ export function generateUnifiedDiff(
           for (let i = change.modifiedStartLineNumber; i <= change.modifiedEndLineNumber; i++) {
             hunkContent += `+${modifiedLines[i - 1]}\n`
             modCount++
-            modLine++
           }
-        } else {
-          // Pure deletion: advance modLine to keep in sync
-          modLine = change.modifiedStartLineNumber + 1
         }
       }
 
@@ -131,7 +125,6 @@ export function generateUnifiedDiff(
         origCount++
         modCount++
         origLine++
-        modLine++
       }
 
       patch += `@@ -${hunk.origStart},${origCount} +${hunk.modStart},${modCount} @@\n`

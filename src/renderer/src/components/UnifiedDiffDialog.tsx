@@ -10,6 +10,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
 
 hljs.registerLanguage('diff', diff)
 
+const escapeHtml = (text: string): string =>
+  text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+
 interface UnifiedDiffDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -48,12 +56,12 @@ export function UnifiedDiffDialog({
 
   // highlight.jsでdiffをハイライト
   const highlightedHtml = useMemo(() => {
-    if (!unifiedDiffContent || hasError) return unifiedDiffContent
+    if (!unifiedDiffContent || hasError) return escapeHtml(unifiedDiffContent)
     try {
       return hljs.highlight(unifiedDiffContent, { language: 'diff' }).value
     } catch (error) {
       console.error('Highlight error:', error)
-      return unifiedDiffContent
+      return escapeHtml(unifiedDiffContent)
     }
   }, [unifiedDiffContent, hasError])
 
@@ -111,6 +119,7 @@ export function UnifiedDiffDialog({
           )}
 
           <pre className="text-xs font-mono">
+            {/* biome-ignore lint/security/noDangerouslySetInnerHtml: highlight.js output is HTML-escaped; the fallback path is escaped with escapeHtml above */}
             <code className="hljs" dangerouslySetInnerHTML={{ __html: highlightedHtml }} />
           </pre>
         </div>
