@@ -30,33 +30,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "preset": "recommended",
-      "a11y": {
-        "noSvgWithoutTitle": "warn",
-        "useButtonType": "warn",
-        "useHtmlLang": "warn"
-      },
-      "complexity": {
-        "useArrowFunction": "warn",
-        "useLiteralKeys": "warn"
-      },
-      "correctness": {
-        "noUnusedVariables": "warn",
-        "useExhaustiveDependencies": "warn"
-      },
-      "security": {
-        "noDangerouslySetInnerHtml": "warn"
-      },
-      "style": {
-        "useImportType": "warn",
-        "useNodejsImportProtocol": "warn",
-        "useTemplate": "warn"
-      },
-      "suspicious": {
-        "noDoubleEquals": "warn",
-        "noTsIgnore": "warn",
-        "noUnknownAtRules": "off"
-      }
+      "preset": "recommended"
     }
   },
   "assist": {
