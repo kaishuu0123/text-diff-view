@@ -6,7 +6,15 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/out", "!**/dist", "!**/node_modules", "!**/resources", "!**/build"]
+    "includes": [
+      "**",
+      "!**/out",
+      "!**/dist",
+      "!**/node_modules",
+      "!**/resources",
+      "!**/build",
+      "!pnpm-lock.yaml"
+    ]
   },
   "formatter": {
     "enabled": true,

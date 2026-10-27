@@ -3,7 +3,7 @@
 Text Diff View uses Electron's built-in window state persistence (`name: 'main-window'`, `windowStatePersistence: true`).
 Run this checklist after upgrading Electron or touching window creation code in `src/main/index.ts`.
 
-Start the app with `yarn dev`, or use a packaged build. To start from a clean state, use an empty user data dir (`--user-data-dir=/tmp/test-ud`).
+Start the app with `pnpm dev`, or use a packaged build. To start from a clean state, use an empty user data dir (`--user-data-dir=/tmp/test-ud`).
 
 1. **Clean start**: launch with a clean user data dir. The window opens at the default size (800x600), centered.
 2. **Bounds**: move and resize the window, quit, relaunch. Same position and size.

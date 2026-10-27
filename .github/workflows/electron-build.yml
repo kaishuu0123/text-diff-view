@@ -20,16 +20,19 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v7
 
-      - name: Install Node.js, NPM and Yarn
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 24
-      - name: yarn install
-        run: yarn install
+      - name: Install dependencies
+        run: pnpm install
       - name: Build Windows
         if: ${{ matrix.os == 'windows-latest'}}
         run: |
-          yarn build:win
+          pnpm build:win
       - name: Import Apple installer signing certificate
         if: ${{ matrix.os == 'macos-latest'}}
         uses: Apple-Actions/import-codesign-certs@v7
@@ -40,7 +43,7 @@ jobs:
         if: ${{ matrix.os == 'macos-latest'}}
         run: |
           xattr -cr .
-          yarn build:mac
+          pnpm build:mac
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
@@ -49,7 +52,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest'}}
         run: |
           sudo snap install snapcraft --classic
-          yarn build:linux
+          pnpm build:linux
       - name: Release
         uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')

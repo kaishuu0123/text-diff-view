@@ -10,12 +10,13 @@ RUN apt -y update && apt install -y --no-install-recommends \
   gperf bison python3-dbusmock
 
 COPY package.json .
-COPY yarn.lock .
+COPY pnpm-lock.yaml .
+COPY pnpm-workspace.yaml .
 COPY tsconfig.json .
 COPY tsconfig.node.json .
 COPY tsconfig.web.json .
 
-RUN yarn install
+RUN corepack enable && pnpm install --frozen-lockfile
 COPY . .
 
 FROM node:24-bookworm AS builder
@@ -24,7 +25,7 @@ ENV NODE_ENV=production
 WORKDIR /app/ts/builder
 
 COPY --from=base /app/ts/base /app/ts/builder
-RUN ["yarn", "build"]
+RUN corepack enable && pnpm build
 
 FROM nginx:latest AS production
 

@@ -98,26 +98,26 @@ The difference calculation is done using [Monaco Editor (microsoft/monaco-editor
 #### Install
 
 ```bash
-$ yarn
+$ pnpm install
 ```
 
 #### Development
 
 ```bash
-$ yarn dev
+$ pnpm dev
 ```
 
 #### Build
 
 ```bash
 # For Windows
-$ yarn build:win
+$ pnpm build:win
 
 # For macOS
-$ yarn build:mac
+$ pnpm build:mac
 
 # For Linux
-$ yarn build:linux
+$ pnpm build:linux
 ```
 
 ## Technology Stack
