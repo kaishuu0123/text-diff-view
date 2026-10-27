@@ -1,12 +1,9 @@
-import pkg from 'electron-updater'
-
-const { autoUpdater } = pkg
-
 import { join } from 'node:path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { app, BrowserWindow, ipcMain, Menu, shell } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu, type MenuItemConstructorOptions, shell } from 'electron'
 import ElectronStore from 'electron-store'
 import icon from '../../resources/icon.png?asset'
+import { initAutoUpdater } from './updater'
 
 type StoreType = {
   themeName?: string
@@ -25,35 +22,26 @@ if (process.platform !== 'darwin') {
 
 let mainWindow: BrowserWindow
 
-export function initAutoUpdater(win: BrowserWindow): void {
-  // 開発環境では動かさない
-  if (!app.isPackaged) return
-
-  autoUpdater.autoDownload = true
-  autoUpdater.autoInstallOnAppQuit = true
-
-  autoUpdater.on('checking-for-update', () => {
-    win.webContents.send('update-checking')
-  })
-
-  autoUpdater.on('update-available', (info) => {
-    win.webContents.send('update-available', info)
-  })
-
-  autoUpdater.on('update-not-available', () => {
-    win.webContents.send('update-not-available')
-  })
-
-  autoUpdater.on('update-downloaded', (info) => {
-    win.webContents.send('update-downloaded', info)
-  })
-
-  autoUpdater.on('error', (err) => {
-    console.error('AutoUpdater error:', err)
-    win.webContents.send('update-error', err.message)
-  })
-
-  autoUpdater.checkForUpdates()
+// macOS はアプリケーションメニューが残るので、デフォルトに Help を足す
+function buildMacMenu(): void {
+  const template: MenuItemConstructorOptions[] = [
+    { role: 'appMenu' },
+    { role: 'editMenu' },
+    { role: 'viewMenu' },
+    { role: 'windowMenu' },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Check for Updates',
+          click: () => mainWindow.webContents.send('menu-check-for-updates')
+        },
+        { type: 'separator' },
+        { label: 'About Text Diff View', click: () => mainWindow.webContents.send('menu-about') }
+      ]
+    }
+  ]
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 }
 
 function createWindow(): void {
@@ -117,27 +105,16 @@ app.whenReady().then(() => {
     store.set('themeName', data)
   })
 
-  ipcMain.on('install-update', () => {
-    autoUpdater.quitAndInstall()
-  })
-
   // App version (synchronous)
   ipcMain.on('get-app-version', (event) => {
     event.returnValue = app.getVersion()
   })
 
-  // Trigger update check from renderer (e.g. About dialog)
-  ipcMain.on('check-for-updates-now', () => {
-    if (!app.isPackaged) {
-      mainWindow.webContents.send('update-error', 'dev')
-      return
-    }
-    autoUpdater.checkForUpdates()
-  })
+  if (process.platform === 'darwin') buildMacMenu()
 
   createWindow()
 
-  initAutoUpdater(mainWindow)
+  initAutoUpdater(() => mainWindow?.webContents)
 
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the

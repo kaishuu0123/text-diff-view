@@ -3,6 +3,7 @@ import * as monaco from 'monaco-editor'
 import { useEffect, useRef, useState } from 'react'
 import { AboutDialog } from './components/AboutDialog'
 import { UnifiedDiffDialog } from './components/UnifiedDiffDialog'
+import { UpdateBanner } from './components/UpdateBanner'
 import { Button } from './components/ui/button'
 import {
   Select,
@@ -12,6 +13,7 @@ import {
   SelectValue
 } from './components/ui/select'
 import { Separator } from './components/ui/separator'
+import { useUpdateState } from './hooks/useUpdateState'
 import { cn } from './lib/utils'
 
 type ThemeNameType = 'light' | 'dark'
@@ -47,7 +49,7 @@ function App(): JSX.Element {
   )
   const [unifiedDiffDialogOpen, setUnifiedDiffDialogOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
-  const [updateInfo, setUpdateInfo] = useState<{ version: string } | null>(null)
+  const updateState = useUpdateState()
 
   const options: monaco.editor.IDiffEditorOptions = {
     fontSize: 14,
@@ -110,11 +112,17 @@ function App(): JSX.Element {
     })()
   }, [])
 
+  // Application menu (macOS) -> About / Check for Updates
   useEffect(() => {
     if (!window.electron) return
-    window.electron.ipcRenderer.on('update-downloaded', (_event, info) => {
-      setUpdateInfo(info)
-    })
+    const removeAbout = window.electron.ipcRenderer.on('menu-about', () => setAboutOpen(true))
+    const removeCheckForUpdates = window.electron.ipcRenderer.on('menu-check-for-updates', () =>
+      setAboutOpen(true)
+    )
+    return () => {
+      removeAbout()
+      removeCheckForUpdates()
+    }
   }, [])
 
   return (
@@ -200,19 +208,14 @@ function App(): JSX.Element {
         themeName={selectedTheme.name}
       />
 
-      <AboutDialog open={aboutOpen} onOpenChange={setAboutOpen} themeName={selectedTheme.name} />
+      <AboutDialog
+        open={aboutOpen}
+        onOpenChange={setAboutOpen}
+        themeName={selectedTheme.name}
+        updateState={updateState}
+      />
 
-      {updateInfo && (
-        <div className="fixed bottom-4 right-4 z-50 bg-background border border-border text-foreground p-3 rounded-lg shadow-md flex gap-3 items-center">
-          <span className="text-sm">アップデート v{updateInfo.version} が利用可能です</span>
-          <Button size="sm" variant="default" onClick={() => window.api.installUpdate()}>
-            再起動して更新
-          </Button>
-          <Button size="sm" variant="ghost" onClick={() => setUpdateInfo(null)}>
-            後で
-          </Button>
-        </div>
-      )}
+      <UpdateBanner state={updateState} />
     </div>
   )
 }
