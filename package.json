@@ -1,6 +1,6 @@
 {
   "name": "text-diff-view",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "description": "text diff view electron app. Text-only.",
   "type": "module",
   "main": "./out/main/index.js",
@@ -40,7 +40,7 @@
     "electron-updater": "^6.1.7",
     "highlight.js": "^11.11.1",
     "lucide-react": "^0.563.0",
-    "monaco-editor": "^0.52.0",
+    "monaco-editor": "^0.57.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
   },
