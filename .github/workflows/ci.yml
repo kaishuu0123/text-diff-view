@@ -8,7 +8,7 @@ on:
 
 jobs:
   check:
-    name: Typecheck and Build
+    name: Lint, Typecheck and Build
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -22,6 +22,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
+      - name: Lint
+        run: yarn lint
 
       - name: Typecheck
         run: yarn typecheck
