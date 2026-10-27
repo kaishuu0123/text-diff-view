@@ -27,7 +27,7 @@ function buildMacMenu(): void {
   const template: MenuItemConstructorOptions[] = [
     {
       // ネイティブの About パネルではなく、アプリ内の About ダイアログを開く
-      label: app.name,
+      label: 'Text Diff View',
       submenu: [
         { label: 'About Text Diff View', click: () => mainWindow.webContents.send('menu-about') },
         {
@@ -51,7 +51,7 @@ function buildMacMenu(): void {
       role: 'help',
       submenu: [
         {
-          label: 'Check for Updates',
+          label: 'Check for Updates…',
           click: () => mainWindow.webContents.send('menu-check-for-updates')
         },
         { type: 'separator' },
