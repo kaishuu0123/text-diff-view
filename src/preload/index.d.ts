@@ -1,4 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
+import { UpdateState } from '../shared/updateState'
 
 declare global {
   interface Window {
@@ -8,6 +9,7 @@ declare global {
       SetThemeName: (themeName: string) => Promise<void>
       installUpdate: () => void
       getAppVersion: () => string
+      getUpdateState: () => Promise<UpdateState>
       checkForUpdates: () => void
     }
   }
