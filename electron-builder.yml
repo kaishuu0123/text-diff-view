@@ -26,6 +26,9 @@ mac:
     - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
     - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
   notarize: true
+  # productName にスペースがあると、GitHub が zip のファイル名をドットに変換して
+  # latest-mac.yml の url(ハイフン)と食い違い、自動更新が 404 になる。スペースを含まない名前にする
+  artifactName: ${name}-${version}-${arch}.${ext}
   target:
     - target: dmg
       arch:
