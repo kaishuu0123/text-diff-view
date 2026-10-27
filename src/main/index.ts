@@ -1,10 +1,12 @@
 import pkg from 'electron-updater'
+
 const { autoUpdater } = pkg
-import { app, shell, BrowserWindow, ipcMain, Menu } from 'electron'
-import { join } from 'path'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+
+import { electronApp, is, optimizer } from '@electron-toolkit/utils'
+import { app, BrowserWindow, ipcMain, Menu, shell } from 'electron'
 import ElectronStore from 'electron-store'
+import { join } from 'path'
+import icon from '../../resources/icon.png?asset'
 
 type StoreType = {
   themeName?: string
@@ -137,7 +139,7 @@ app.whenReady().then(() => {
 
   initAutoUpdater(mainWindow)
 
-  app.on('activate', function () {
+  app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
