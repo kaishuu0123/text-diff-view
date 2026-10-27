@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor'
+import type * as monaco from 'monaco-editor'
 
 /**
  * Generate a unified diff patch from Monaco Editor's diff computation

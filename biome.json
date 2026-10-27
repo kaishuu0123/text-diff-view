@@ -6,14 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": [
-      "**",
-      "!**/out",
-      "!**/dist",
-      "!**/node_modules",
-      "!**/resources",
-      "!**/build"
-    ]
+    "includes": ["**", "!**/out", "!**/dist", "!**/node_modules", "!**/resources", "!**/build"]
   },
   "formatter": {
     "enabled": true,

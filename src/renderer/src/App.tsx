@@ -1,6 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { DiffEditor, loader, type MonacoDiffEditor } from '@monaco-editor/react'
 import * as monaco from 'monaco-editor'
-import { DiffEditor, loader, MonacoDiffEditor } from '@monaco-editor/react'
+import { useEffect, useRef, useState } from 'react'
+import { AboutDialog } from './components/AboutDialog'
+import { UnifiedDiffDialog } from './components/UnifiedDiffDialog'
+import { Button } from './components/ui/button'
 import {
   Select,
   SelectContent,
@@ -8,10 +11,7 @@ import {
   SelectTrigger,
   SelectValue
 } from './components/ui/select'
-import { Button } from './components/ui/button'
 import { Separator } from './components/ui/separator'
-import { UnifiedDiffDialog } from './components/UnifiedDiffDialog'
-import { AboutDialog } from './components/AboutDialog'
 import { cn } from './lib/utils'
 
 type ThemeNameType = 'light' | 'dark'
@@ -202,11 +202,7 @@ function App(): JSX.Element {
         themeName={selectedTheme.name}
       />
 
-      <AboutDialog
-        open={aboutOpen}
-        onOpenChange={setAboutOpen}
-        themeName={selectedTheme.name}
-      />
+      <AboutDialog open={aboutOpen} onOpenChange={setAboutOpen} themeName={selectedTheme.name} />
 
       {updateInfo && (
         <div className="fixed bottom-4 right-4 z-50 bg-background border border-border text-foreground p-3 rounded-lg shadow-md flex gap-3 items-center">

@@ -1,12 +1,12 @@
-import { useState, useEffect, useMemo } from 'react'
-import * as monaco from 'monaco-editor'
 import hljs from 'highlight.js/lib/core'
 import diff from 'highlight.js/lib/languages/diff'
+import type * as monaco from 'monaco-editor'
+import { useEffect, useMemo, useState } from 'react'
 import 'highlight.js/styles/atom-one-dark.css'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
-import { Button } from './ui/button'
 import { generateUnifiedDiff } from '@renderer/lib/unifiedDiffGenerator'
 import { cn } from '../lib/utils'
+import { Button } from './ui/button'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
 
 hljs.registerLanguage('diff', diff)
 

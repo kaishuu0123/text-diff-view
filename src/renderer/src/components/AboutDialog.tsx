@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
-import { Button } from './ui/button'
-import { cn } from '../lib/utils'
 import appIcon from '../../../../resources/icon.png'
+import { cn } from '../lib/utils'
+import { Button } from './ui/button'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
 
 type UpdateStatus = 'checking' | 'up-to-date' | 'available' | 'downloaded' | 'error'
 
