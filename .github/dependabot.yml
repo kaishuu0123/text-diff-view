@@ -9,6 +9,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 3
     labels:
       - "dependencies"
       - "github-actions"
@@ -17,11 +19,15 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 3
 
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 10
     versioning-strategy: lockfile-only
     labels:
