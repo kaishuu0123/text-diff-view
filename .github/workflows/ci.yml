@@ -24,7 +24,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Lint and format check
-        run: yarn check
+        run: yarn biome:check
 
       - name: Typecheck
         run: yarn typecheck
