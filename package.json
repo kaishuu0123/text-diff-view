@@ -13,16 +13,16 @@
     "biome:check": "biome check .",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
-    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "typecheck": "pnpm run typecheck:node && pnpm run typecheck:web",
     "build:vite": "cross-env NODE_OPTIONS=--max-old-space-size=4096 electron-vite build",
     "start": "electron-vite preview",
     "dev": "electron-vite dev -- --no-sandbox",
-    "build": "npm run typecheck && npm run build:vite",
+    "build": "pnpm run typecheck && pnpm run build:vite",
     "postinstall": "electron-builder install-app-deps",
-    "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win --publish never",
-    "build:mac": "npm run build:vite && electron-builder --mac --publish never",
-    "build:linux": "npm run build:vite && electron-builder --linux AppImage snap --publish=never"
+    "build:unpack": "pnpm run build && electron-builder --dir",
+    "build:win": "pnpm run build && electron-builder --win --publish never",
+    "build:mac": "pnpm run build:vite && electron-builder --mac --publish never",
+    "build:linux": "pnpm run build:vite && electron-builder --linux AppImage snap --publish=never"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
@@ -63,5 +63,12 @@
     "typescript": "^5.5.2",
     "vite": "^7.1.10"
   },
-  "packageManager": "pnpm@11.2.2"
+  "packageManager": "pnpm@11.2.2",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.2.2",
+      "onFail": "warn"
+    }
+  }
 }
