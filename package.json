@@ -40,7 +40,7 @@
     "electron-updater": "^6.1.7",
     "highlight.js": "^11.11.1",
     "lucide-react": "^0.563.0",
-    "monaco-editor": "^0.52.0",
+    "monaco-editor": "^0.57.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
   },
