@@ -22,10 +22,28 @@ if (process.platform !== 'darwin') {
 
 let mainWindow: BrowserWindow
 
-// macOS はアプリケーションメニューが残るので、デフォルトに Help を足す
+// macOS はアプリケーションメニューが残るので、アプリ内 About に統一した自前のメニューを使う
 function buildMacMenu(): void {
   const template: MenuItemConstructorOptions[] = [
-    { role: 'appMenu' },
+    {
+      // ネイティブの About パネルではなく、アプリ内の About ダイアログを開く
+      label: 'Text Diff View',
+      submenu: [
+        { label: 'About Text Diff View', click: () => mainWindow.webContents.send('menu-about') },
+        {
+          label: 'Check for Updates…',
+          click: () => mainWindow.webContents.send('menu-check-for-updates')
+        },
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideOthers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' }
+      ]
+    },
     { role: 'editMenu' },
     { role: 'viewMenu' },
     { role: 'windowMenu' },
@@ -33,7 +51,7 @@ function buildMacMenu(): void {
       role: 'help',
       submenu: [
         {
-          label: 'Check for Updates',
+          label: 'Check for Updates…',
           click: () => mainWindow.webContents.send('menu-check-for-updates')
         },
         { type: 'separator' },
