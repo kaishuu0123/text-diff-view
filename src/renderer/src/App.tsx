@@ -1,6 +1,6 @@
 import { DiffEditor, loader, type MonacoDiffEditor } from '@monaco-editor/react'
 import * as monaco from 'monaco-editor'
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import EditorWorker from 'monaco-editor/editor/editor.worker?worker'
 import { useEffect, useRef, useState } from 'react'
 import { AboutDialog } from './components/AboutDialog'
 import { UnifiedDiffDialog } from './components/UnifiedDiffDialog'
