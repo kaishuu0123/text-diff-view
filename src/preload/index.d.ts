@@ -11,6 +11,12 @@ declare global {
       getAppVersion: () => string
       getUpdateState: () => Promise<UpdateState>
       checkForUpdates: () => void
+      popupMenu: () => void
+      minimizeWindow: () => void
+      maximizeWindow: () => void
+      closeWindow: () => void
+      isMaximized: () => Promise<boolean>
+      onMaximizeChange: (cb: (maximized: boolean) => void) => void
     }
   }
 }

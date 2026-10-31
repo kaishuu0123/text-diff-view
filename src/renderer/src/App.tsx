@@ -3,6 +3,7 @@ import * as monaco from 'monaco-editor'
 import EditorWorker from 'monaco-editor/editor/editor.worker?worker'
 import { useEffect, useRef, useState } from 'react'
 import { AboutDialog } from './components/AboutDialog'
+import TitleBar from './components/TitleBar'
 import { UnifiedDiffDialog } from './components/UnifiedDiffDialog'
 import { UpdateBanner } from './components/UpdateBanner'
 import { Button } from './components/ui/button'
@@ -133,9 +134,13 @@ function App(): JSX.Element {
   return (
     <div
       id="app"
-      className={cn('bg-background text-foreground', selectedTheme.name === 'dark' && 'dark')}
+      className={cn(
+        'bg-background text-foreground flex flex-col h-screen',
+        selectedTheme.name === 'dark' && 'dark'
+      )}
     >
-      <div className="flex flex-col h-screen p-2 space-y-2">
+      <TitleBar />
+      <div className="flex flex-col flex-1 min-h-0 p-2 space-y-2">
         <div className="flex items-center justify-center">
           <div className="theme grow flex items-center space-x-2">
             <label htmlFor="theme">Theme</label>
@@ -190,16 +195,6 @@ function App(): JSX.Element {
         </div>
 
         <div id="footer" className="flex justify-end space-x-3 items-center">
-          <div>
-            <button
-              type="button"
-              className="text-xs text-muted-foreground hover:underline"
-              onClick={() => setAboutOpen(true)}
-            >
-              Text Diff View
-            </button>
-          </div>
-          <Separator orientation="vertical" className="h-full" />
           <div>
             <span className="text-xs text-muted-foreground">Powered by Monaco Editor.</span>
           </div>

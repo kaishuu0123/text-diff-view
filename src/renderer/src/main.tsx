@@ -17,7 +17,13 @@ if (window.api === undefined) {
     installUpdate: (): void => {},
     getAppVersion: (): string => '0.0.0',
     getUpdateState: async (): Promise<UpdateState> => ({ status: 'idle' }),
-    checkForUpdates: (): void => {}
+    checkForUpdates: (): void => {},
+    popupMenu: (): void => {},
+    minimizeWindow: (): void => {},
+    maximizeWindow: (): void => {},
+    closeWindow: (): void => {},
+    isMaximized: async (): Promise<boolean> => false,
+    onMaximizeChange: (): void => {}
   }
 }
 
