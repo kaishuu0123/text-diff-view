@@ -109,6 +109,14 @@
   }
 }
 
+/* Tailwind 4 buttons use the default cursor; keep the pointer cursor from Tailwind 3 */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
