@@ -128,7 +128,10 @@ export function AboutDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className={cn('max-w-sm bg-background text-foreground', themeName === 'dark' && 'dark')}
+        className={cn(
+          'max-w-sm sm:max-w-sm bg-background text-foreground',
+          themeName === 'dark' && 'dark'
+        )}
         aria-describedby={undefined}
       >
         <DialogHeader>
