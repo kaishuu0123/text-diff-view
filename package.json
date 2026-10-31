@@ -43,7 +43,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.6.4",
     "@electron-toolkit/tsconfig": "^2.0.0",
-    "@tailwindcss/postcss": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^24",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
