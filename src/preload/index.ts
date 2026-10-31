@@ -21,6 +21,24 @@ const api = {
   },
   checkForUpdates: (): void => {
     ipcRenderer.send('check-for-updates-now')
+  },
+  popupMenu: (): void => {
+    ipcRenderer.send('popup-application-menu')
+  },
+  minimizeWindow: (): void => {
+    ipcRenderer.send('minimize-window')
+  },
+  maximizeWindow: (): void => {
+    ipcRenderer.send('maximize-window')
+  },
+  closeWindow: (): void => {
+    ipcRenderer.send('close-window')
+  },
+  isMaximized: (): Promise<boolean> => {
+    return ipcRenderer.invoke('is-maximized')
+  },
+  onMaximizeChange: (cb: (maximized: boolean) => void): void => {
+    ipcRenderer.on('maximize-changed', (_event, value: boolean) => cb(value))
   }
 }
 

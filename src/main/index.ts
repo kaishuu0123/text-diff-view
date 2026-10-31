@@ -63,6 +63,8 @@ function buildMacMenu(): void {
 }
 
 function createWindow(): void {
+  const isNonMac = process.platform !== 'darwin'
+
   // Create the browser window.
   // Position, size and maximized state are persisted and restored by Electron itself,
   // which also keeps the window on a connected display when monitors change.
@@ -74,6 +76,7 @@ function createWindow(): void {
     show: false,
     autoHideMenuBar: true,
     useContentSize: true,
+    frame: !isNonMac,
     ...(process?.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.mjs'),
@@ -81,6 +84,29 @@ function createWindow(): void {
     },
     resizable: true
   })
+
+  if (isNonMac) {
+    mainWindow.on('maximize', () => mainWindow.webContents.send('maximize-changed', true))
+    mainWindow.on('unmaximize', () => mainWindow.webContents.send('maximize-changed', false))
+
+    ipcMain.on('popup-application-menu', () => {
+      Menu.buildFromTemplate([
+        { label: 'About Text Diff View', click: () => mainWindow.webContents.send('menu-about') },
+        {
+          label: 'Check for Updates…',
+          click: () => mainWindow.webContents.send('menu-check-for-updates')
+        },
+        { type: 'separator' },
+        { role: 'quit' }
+      ]).popup({ window: mainWindow })
+    })
+    ipcMain.on('minimize-window', () => mainWindow.minimize())
+    ipcMain.on('maximize-window', () => {
+      mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize()
+    })
+    ipcMain.on('close-window', () => mainWindow.close())
+    ipcMain.handle('is-maximized', () => mainWindow.isMaximized())
+  }
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
