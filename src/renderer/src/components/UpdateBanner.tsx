@@ -6,7 +6,7 @@ interface UpdateBannerProps {
   state: UpdateState
 }
 
-export function UpdateBanner({ state }: UpdateBannerProps): JSX.Element | null {
+export function UpdateBanner({ state }: UpdateBannerProps): React.JSX.Element | null {
   const [dismissedVersion, setDismissedVersion] = useState<string | undefined>()
 
   if (state.status !== 'downloaded' || state.version === dismissedVersion) return null

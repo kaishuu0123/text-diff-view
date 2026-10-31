@@ -46,7 +46,7 @@ const getThemeColorByThemeName = (themeName: ThemeNameType): ThemeColorSetType =
   }
 }
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   const [_leftValue, setLeftValue] = useState('')
   const [_rightValue, setRightValue] = useState('')
   const currentEditor = useRef<MonacoDiffEditor | null>(null)

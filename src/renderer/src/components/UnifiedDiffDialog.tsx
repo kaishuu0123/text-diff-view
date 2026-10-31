@@ -30,7 +30,7 @@ export function UnifiedDiffDialog({
   onOpenChange,
   diffEditor,
   themeName
-}: UnifiedDiffDialogProps): JSX.Element {
+}: UnifiedDiffDialogProps): React.JSX.Element {
   const [copied, setCopied] = useState(false)
   const [unifiedDiffContent, setUnifiedDiffContent] = useState('')
   const [hasError, setHasError] = useState(false)

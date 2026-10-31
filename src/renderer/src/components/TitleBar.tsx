@@ -4,7 +4,7 @@ import { cn } from '../lib/utils'
 
 const isMac = navigator.platform.includes('Mac')
 
-export default function TitleBar(): JSX.Element | null {
+export default function TitleBar(): React.JSX.Element | null {
   const [isMaximized, setIsMaximized] = useState(false)
 
   useEffect(() => {
