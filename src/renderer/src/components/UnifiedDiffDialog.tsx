@@ -88,7 +88,7 @@ export function UnifiedDiffDialog({
       {/* ダイアログの高さをコンテンツ依存にする */}
       <DialogContent
         className={cn(
-          'max-w-[calc(100vw-4rem)] w-full max-h-[90vh] flex flex-col p-6',
+          'max-w-[calc(100vw-4rem)] sm:max-w-[calc(100vw-4rem)] w-full max-h-[90vh] flex flex-col p-6',
           themeName === 'dark' && 'dark'
         )}
       >
