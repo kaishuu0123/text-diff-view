@@ -140,9 +140,9 @@ function App(): React.JSX.Element {
       )}
     >
       <TitleBar />
-      <div className="flex flex-col flex-1 min-h-0 p-2 space-y-2">
+      <div className="flex flex-col flex-1 min-h-0 p-2 gap-2">
         <div className="flex items-center justify-center">
-          <div className="theme grow flex items-center space-x-2">
+          <div className="theme grow flex items-center gap-2">
             <label htmlFor="theme">Theme</label>
             <Select name="theme" onValueChange={handleChangeTheme} value={selectedTheme.name}>
               <SelectTrigger className="max-w-32 h-8">
@@ -155,9 +155,9 @@ function App(): React.JSX.Element {
             </Select>
           </div>
 
-          <div className="flex space-x-2 items-center">
+          <div className="flex gap-2 items-center">
             <Button className="h-8 rounded-sm" onClick={() => setUnifiedDiffDialogOpen(true)}>
-              <span className="flex items-center space-x-2">
+              <span className="flex items-center gap-2">
                 <i className="codicon codicon-file-code"></i>
                 <span>Show Unified Diff</span>
               </span>
@@ -193,7 +193,7 @@ function App(): React.JSX.Element {
           />
         </div>
 
-        <div id="footer" className="flex justify-end space-x-3 items-center">
+        <div id="footer" className="flex justify-end gap-3 items-center">
           <div>
             <button
               type="button"
