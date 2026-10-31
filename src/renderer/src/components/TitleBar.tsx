@@ -37,7 +37,9 @@ export default function TitleBar(): JSX.Element | null {
 
       {/* App icon and title */}
       <img src={appIcon} alt="" className="h-4 w-4 ml-1 mr-2 pointer-events-none" />
-      <span className="text-xs text-foreground/80 truncate">{document.title || 'Text Diff View'}</span>
+      <span className="text-xs text-foreground/80 truncate">
+        {document.title || 'Text Diff View'}
+      </span>
 
       {/* Drag area (fills remaining space) */}
       <div className="flex-1" />
