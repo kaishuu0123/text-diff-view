@@ -46,7 +46,7 @@ const getThemeColorByThemeName = (themeName: ThemeNameType): ThemeColorSetType =
   }
 }
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   const [_leftValue, setLeftValue] = useState('')
   const [_rightValue, setRightValue] = useState('')
   const currentEditor = useRef<MonacoDiffEditor | null>(null)
@@ -186,7 +186,6 @@ function App(): JSX.Element {
 
         <div className="grow border">
           <DiffEditor
-            className="border-1"
             language="text"
             theme={selectedTheme.monacoThemeName}
             options={options}

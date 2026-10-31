@@ -19,7 +19,7 @@ export function AboutDialog({
   onOpenChange,
   themeName,
   updateState
-}: AboutDialogProps): JSX.Element {
+}: AboutDialogProps): React.JSX.Element {
   const [version] = useState(() => (isElectron ? window.api.getAppVersion() : ''))
   const [copied, setCopied] = useState(false)
 
