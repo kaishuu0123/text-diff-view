@@ -186,7 +186,6 @@ function App(): React.JSX.Element {
 
         <div className="grow border">
           <DiffEditor
-            className="border-1"
             language="text"
             theme={selectedTheme.monacoThemeName}
             options={options}

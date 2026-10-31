@@ -26,7 +26,7 @@ export default function TitleBar(): React.JSX.Element | null {
         className={cn(
           'h-full px-4 flex items-center justify-center',
           'hover:bg-accent text-foreground transition-colors',
-          'focus:outline-none'
+          'focus:outline-hidden'
         )}
         style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
         onClick={() => window.api.popupMenu()}
@@ -52,7 +52,7 @@ export default function TitleBar(): React.JSX.Element | null {
         {/* Minimize */}
         <button
           type="button"
-          className="h-full px-4 flex items-center justify-center hover:bg-accent text-foreground transition-colors focus:outline-none"
+          className="h-full px-4 flex items-center justify-center hover:bg-accent text-foreground transition-colors focus:outline-hidden"
           onClick={() => window.api.minimizeWindow()}
           title="Minimize"
         >
@@ -62,7 +62,7 @@ export default function TitleBar(): React.JSX.Element | null {
         {/* Maximize / Restore */}
         <button
           type="button"
-          className="h-full px-4 flex items-center justify-center hover:bg-accent text-foreground transition-colors focus:outline-none"
+          className="h-full px-4 flex items-center justify-center hover:bg-accent text-foreground transition-colors focus:outline-hidden"
           onClick={() => window.api.maximizeWindow()}
           title={isMaximized ? 'Restore' : 'Maximize'}
         >
@@ -77,7 +77,7 @@ export default function TitleBar(): React.JSX.Element | null {
         {/* Close */}
         <button
           type="button"
-          className="h-full px-4 flex items-center justify-center hover:bg-destructive hover:text-destructive-foreground text-foreground transition-colors focus:outline-none"
+          className="h-full px-4 flex items-center justify-center hover:bg-destructive hover:text-destructive-foreground text-foreground transition-colors focus:outline-hidden"
           onClick={() => window.api.closeWindow()}
           title="Close"
         >
