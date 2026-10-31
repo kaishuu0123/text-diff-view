@@ -195,6 +195,16 @@ function App(): React.JSX.Element {
 
         <div id="footer" className="flex justify-end space-x-3 items-center">
           <div>
+            <button
+              type="button"
+              className="text-xs text-muted-foreground hover:underline"
+              onClick={() => setAboutOpen(true)}
+            >
+              Text Diff View
+            </button>
+          </div>
+          <Separator orientation="vertical" className="h-full" />
+          <div>
             <span className="text-xs text-muted-foreground">Powered by Monaco Editor.</span>
           </div>
         </div>

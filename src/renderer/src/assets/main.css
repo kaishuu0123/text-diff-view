@@ -1,3 +1,5 @@
+@import "@vscode/codicons/dist/codicon.css";
+
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
