@@ -3,3 +3,5 @@ allowBuilds:
   electron-winstaller: false
   esbuild: true
 minimumReleaseAge: 1440
+overrides:
+  dompurify: ^3.4.18
